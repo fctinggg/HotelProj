@@ -1,0 +1,29 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgContainer {
+  position:relative;
+  overflow:hidden;
+  box-shadow: px;
+}
+
+.imgDeco {
+  max-width: 100%;
+  height: auto;
+  filter: blur(4px);
+  opacity: 0.8;
+  align-items: center;
+  text-align: center;
+  z-index: 0 !important;
+  display: block;
+  
+}
+
+.FormContainer {
+  z-index: 1 !important;
+  position: absolute;
+}

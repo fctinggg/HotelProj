@@ -1,0 +1,94 @@
+.SignInForm {
+  text-align: center;
+  align-items: center;
+  background-color: white;
+  opacity: 0.9;
+  padding: 20px;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+}
+
+.SignUpForm {
+  text-align: center;
+  align-items: center;
+  background-color: white;
+  opacity: 0.9;
+  padding: 20px;
+  margin: 10px;
+  font-size: 1rem;
+}
+
+.container {
+  display: block;
+  width: auto;
+}
+
+.formTitle {
+  color: black;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 1.5rem;
+  padding: 8px;
+}
+
+.inputFont {
+  padding: 2px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: block;
+}
+
+.inputItem {
+  display: block;
+  padding: 10px;
+  text-align: left;
+  padding-bottom: 0;
+}
+
+.inputBox {
+  display: block;
+  padding: 6px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.inputBox_name {
+  display: block;
+  padding: 6px;
+  margin-bottom: 5px;
+  width: 70%;
+}
+
+.submitBtn {
+  text-align: center;
+  align-items: center;
+  padding: 10px;
+  margin: 5px;
+}
+
+.reminder {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 0.5rem;
+  margin-top:15px;
+}
+
+.errorMsg {
+  font-size: small;
+  font-style: italic;
+  color: red;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.validInputMsg {
+  font-size: 0.7rem;
+  font-style: italic;
+  color: red;
+  text-align: left;
+  margin-left: 10px;
+  margin-top: none;
+}
+
+.visibilityDiv {
+  display: flex;
+}
