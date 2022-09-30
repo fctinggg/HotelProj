@@ -1,123 +1,222 @@
-import {useState} from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useState, useContext, useEffect } from "react";
+import { styled, alpha } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Box from "@mui/material/Box";
+import FilterContext from "../../store/filterContext";
 
 const styledbtn = {
-  background: '#D0B8A8',
+  background: "#D0B8A8",
   fontSize: 15,
-  '&:hover': {
-    color: 'white',
-    background: '#DFD3C3'
-  }
-}
+  "&:hover": {
+    color: "white",
+    background: "#DFD3C3",
+  },
+};
+
+const styledMenubtn = {
+  borderRadius: "2",
+  color: "white",
+  fontSize: "3px",
+  width: "80%",
+  padding: "2",
+  backgroundColor: '#7D6E83',
+  "&:hover": {
+    border: "solid 1px",
+    borderColor: "#7D6E83",
+    background: "Pearl",
+    opacity: 0.6,
+    color: "#7D6E83"
+  },
+};
+
+const submitBtn = {
+  borderColor: "#958a99",
+  border: "solid 1px",
+  borderRadius: "0",
+  color: "#7D6E83",
+  fontSize: "3px",
+  width: "30%",
+  padding: "0",
+  "&:hover": {
+    borderColor: "black",
+    background: "Pearl",
+    opacity: 0.6,
+  },
+};
 
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
     anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
+      vertical: "bottom",
+      horizontal: "right",
     }}
     transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
+      vertical: "top",
+      horizontal: "right",
     }}
     {...props}
   />
-  ))(({ theme }) => ({
-  '& .MuiPaper-root': {
+))(({ theme }) => ({
+  "& .MuiPaper-root": {
     borderRadius: 6,
     marginTop: theme.spacing(1),
     minWidth: 180,
-    color:'black',
+    color: "black",
     boxShadow:
-      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-    '& .MuiMenu-list': {
-      padding: '4px 0',
+      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+    "& .MuiMenu-list": {
+      padding: "4px 0",
     },
-    '& .MuiMenuItem-root': {
-      '& .MuiSvgIcon-root': {
+    "& .MuiMenuItem-root": {
+      "& .MuiSvgIcon-root": {
         fontSize: 18,
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),
       },
-      '&:active': {
+      "&:active": {
         backgroundColor: alpha(
           theme.palette.primary.main,
-          theme.palette.action.selectedOpacity,
+          theme.palette.action.selectedOpacity
         ),
       },
     },
   },
 }));
 
-const FilterBar = (props) => {
+const FilterBar = () => {
+  const ctx = useContext(FilterContext)
   const [anchorEl, setAnchorEl] = useState(null);
-  const [filteredRegion, setFilteredRegion] = useState()
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const filterHandler = () => {
-    setFilteredRegion('Kowloon')
-  }
+  // const filterHandler = (regionValue) => {
+  //   ctx.onRegionFilter(regionValue)
+  // };
+  
+  // const filterCleanHandler = () => {
+  //   ctx.onRegionFilter(selectedRegion)
+  // };
 
-  console.log(filteredRegion);
 
   return (
     <div>
-      <Box sx={{
-            py: 3,
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}>
-      <Button
-        id="demo-customized-button"
-        aria-controls={open ? 'demo-customized-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        variant="contained"
-        disableElevation
-        sx={styledbtn}
-        onClick={handleClick}
-        endIcon={<KeyboardArrowDownIcon />}
+      <Box
+        sx={{
+          py: 3,
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+        }}
       >
-        Filter by Region
-      </Button>
+        <Button
+          id="demo-customized-button"
+          aria-controls={open ? "demo-customized-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          variant="contained"
+          disableElevation
+          sx={styledbtn}
+          onClick={handleClick}
+          endIcon={<KeyboardArrowDownIcon />}
+        >
+          Filter by Region
+        </Button>
       </Box>
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{
-          'aria-labelledby': 'demo-customized-button',
+          "aria-labelledby": "demo-customized-button",
         }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={filterHandler} disableRipple>
-          Kowloon
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          New Territeries
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          HongKong Island
-        </MenuItem>
-      </StyledMenu>
+          <Box
+            sx={{
+              py: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+            }}>
+            <Button
+              sx={styledMenubtn}
+              onClick={() => {
+                ctx.onRegionFilter('Kowloon');
+                handleClose();
+              }}
+              value='Kowloon'
+            >
+              Kowloon
+            </Button>
+          </Box>
+          
+          <Box
+            sx={{
+              py: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+            }}>
+            <Button
+              sx={styledMenubtn}
+              onClick={() => {
+                ctx.onRegionFilter('New Territories');
+                handleClose();
+              }}
+            >
+              New Territories
+            </Button>
+          </Box>
 
-      
+          <Box
+            sx={{
+              py: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+            }}>
+            <Button
+              sx={styledMenubtn}
+              onClick={() => {
+                ctx.onRegionFilter('Hong Kong Island');
+                handleClose();
+              }}
+            >
+              Hong Kong Island
+            </Button>
+          </Box>
+        
+          <Box
+            sx={{
+              py: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+            }}>
+            <Button
+              sx={submitBtn}
+              onClick={() => {
+                ctx.onRegionFilter(null);
+                handleClose();
+              }}
+            >
+              Clean
+            </Button>
+          </Box>
+      </StyledMenu>
     </div>
   );
-}
+};
 
 export default FilterBar;

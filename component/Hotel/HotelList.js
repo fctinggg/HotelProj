@@ -1,14 +1,25 @@
 import HotelItem from './HotelItem';
 import classes from './HotelList.module.css';
-import FilterBar from "../ui/FilterBar";
 import { Fragment } from "react";
 
 const HotelList = (props) => {
+  const hotels = props.hotels;
+  const hotelamenities = props.amenities;
+
+  const formattedHotels = (hotels, hotelamenities) => hotels.map((obj, i) => (
+    {
+      ...obj,
+      hotels: hotelamenities[i]
+    }
+  ))
+  
+  const hotelsWithAmen = formattedHotels(hotels, hotelamenities);
+
+  console.log(hotelsWithAmen)
   return (
   <Fragment>
-    <FilterBar onFilter={props.onFilter}></FilterBar>
     <ul className={classes.list}>
-    {props.hotels.map((hotel) => (
+    {hotelsWithAmen.map((hotel) => (
       <HotelItem
         key={hotel.id}
         id={hotel.id}
@@ -17,11 +28,24 @@ const HotelList = (props) => {
         region={hotel.region}
         openYear={hotel.openYear}
         totalReview={hotel.totalReview}
+        popularAmenities={hotel.hotels}
       />
-    ))
-    }
+      ))
+      }
   </ul>
   </Fragment>)
 }
 
 export default HotelList;
+
+
+
+{/* {props.amenities.map((hotelamenities) => (
+      <HotelItem
+        parking={hotelamenities.parking}
+        airportService={hotelamenities.airportService}
+        swimmingPool={hotelamenities.swimmingPool}
+        smokeArea={hotelamenities.smokeArea}
+      />
+    ))
+    } */}

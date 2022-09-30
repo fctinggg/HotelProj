@@ -8,6 +8,7 @@ import testImg from "../../img/vojtech-bruzek-Yrxr3bsPdS0-unsplash.jpg";
 import RatingUI from "../ui/Rating";
 
 const HotelItem = (props) => {
+
   return (
     <Fragment>
       <li>
@@ -28,7 +29,7 @@ const HotelItem = (props) => {
               maxWidth: {md: "95%", sm: 400, lg: 900}
             }}
           >
-            <Grid container spacing={4} pt={4} pb={4} px={2} py={2}>
+            <Grid container spacing={3} pt={4} pb={4} px={2} py={2}>
               <Grid item>
                 <Box>
                   <div className={classes.imgDiv}>
@@ -42,8 +43,8 @@ const HotelItem = (props) => {
                   </div>
                 </Box>
               </Grid>
-              <Grid item sx={{ mr: 6 }}>
-                <Box sx={{px: 2}}>
+              <Grid item sx={{ mr: 0 }}>
+                <Box xs="2px" sx={{px: 2}}>
                   <div>
                     <div className={classes.nameFont}>{props.hotelName}</div>
                     <div className={classes.infoFont}>
@@ -59,17 +60,13 @@ const HotelItem = (props) => {
                     <div className={classes.infoFont}>
                       Guest Overall Review:
                       <RatingUI rating={props.totalReview}></RatingUI>
-                        {/* {props.hotelReviews.map((hotelReview) => (
-                        <RatingUI
-                          cleanliness={hotelReview.cleanliness}
-                          location={hotelReview.location}
-                          service={hotelReview.service}
-                          facilities={hotelReview.facilities}
-                        />
-                      ))
-                      } */}
                     </div>
                   </div>
+                </Box>
+              </Grid>
+              <Grid item sx={{ mr: 3 }}>
+                <Box sx={{px: 2}}>
+                  Hi {props.popularAmenities}
                 </Box>
               </Grid>
             </Grid>

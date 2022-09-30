@@ -1,7 +1,8 @@
 // Hotel/All
 import AllHotelPage from "../../../component/Hotel/AllHotel";
-import { Fragment } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { MongoClient } from "mongodb";
+import FilterContext from "../../../store/filterContext";
 
 // const DUMMY_HOTELS = [
 //   {
@@ -103,23 +104,41 @@ import { MongoClient } from "mongodb";
 // ];
 
 const AllHotel = (props) => {
-  console.log(props);
-  console.log(props.hotelRoomTypes);
+  const ctx = useContext(FilterContext);
 
-  let filteredRegion = [...props.hotels]
-  const filterHandler = (region) => {
-    console.log(region)
-    filteredRegion = props.hotels.filter(
-      (hotel) => hotel.region !== region
-    );
+  console.log(props.hotelPopularAmenities)
+  const updatedHotels = props.hotels;
+
+  const [data, setData] = useState(updatedHotels);
+
+  const filteredRegion = ctx.filteredRegion;
+
+  // console.log(updatedHotels);
+
+  const applyFilter = () => {
+    if(filteredRegion) {
+    const result = updatedHotels.filter((hotel) => {
+      return hotel.region === filteredRegion
+    });
+    console.log(data);
+    setData(result);
   };
+    if(filteredRegion === null) {
+      const result = updatedHotels.filter((hotel) => {
+        return hotel.region !== filteredRegion
+      });
+      console.log(data);
+      setData(result);
+    };
+}
+
+  useEffect(() => {
+    applyFilter();
+  }, [filteredRegion]);
 
   return (
     <Fragment>
-      <AllHotelPage
-        hotels={filteredRegion}
-        onFilter={filterHandler}
-      ></AllHotelPage>
+      <AllHotelPage hotels={data} amenities={props.hotelPopularAmenities}></AllHotelPage>
     </Fragment>
   );
 };
