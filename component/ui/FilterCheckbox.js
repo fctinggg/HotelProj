@@ -162,7 +162,7 @@ const FilterCheckbox = () => {
           endIcon={<KeyboardArrowDownIcon />}
           startIcon={<PlaceOutlinedIcon />}
         >
-          Filter by Region
+          Filter by Amenities
         </Button>
       </Box>
       <StyledMenu
