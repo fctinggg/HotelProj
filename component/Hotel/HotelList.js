@@ -38,14 +38,3 @@ const HotelList = (props) => {
 
 export default HotelList;
 
-
-
-{/* {props.amenities.map((hotelamenities) => (
-      <HotelItem
-        parking={hotelamenities.parking}
-        airportService={hotelamenities.airportService}
-        swimmingPool={hotelamenities.swimmingPool}
-        smokeArea={hotelamenities.smokeArea}
-      />
-    ))
-    } */}
