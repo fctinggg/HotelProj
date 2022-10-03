@@ -2,21 +2,28 @@ import React,{useState} from "react";
 
 const FilterContext = React.createContext({
   filteredRegion: '',
+  filteredAmenities: '',
   onRegionFilter: (region) => {},
+  onAmenitiesFilter: (conditionValue) => {}
 });
 
 export const FilterContextProvider = (props) => {
-  const [filteredCondition, setFilteredCondition] = useState();
+  const [filteredRegion, setFilteredRegion] = useState();
+  const [filteredAmenities, setFilteredAmenities] = useState();
 
-  const filterHandler = (region) => {
+  const regionFilterHandler = (region) => {
     console.log(region);
-    setFilteredCondition(region);
+    setFilteredRegion(region);
   };
 
+  const amenitiesFilterHandler = (conditionValue) => {
+    console.log(conditionValue);
+    setFilteredAmenities(conditionValue);
+  };
 
   return (
     <FilterContext.Provider
-      value={{ filteredRegion: filteredCondition, onRegionFilter: filterHandler }}
+      value={{ filteredRegion: filteredRegion, filteredAmenities: filteredAmenities,onRegionFilter: regionFilterHandler, onAmenitiesFilter: amenitiesFilterHandler}}
     >
       {props.children}
     </FilterContext.Provider>

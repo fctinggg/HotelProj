@@ -1,10 +1,11 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Box from "@mui/material/Box";
 import FilterContext from "../../store/filterContext";
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
 const styledbtn = {
   background: "#D0B8A8",
@@ -51,11 +52,11 @@ const StyledMenu = styled((props) => (
     elevation={0}
     anchorOrigin={{
       vertical: "bottom",
-      horizontal: "right",
+      horizontal: "center",
     }}
     transformOrigin={{
       vertical: "top",
-      horizontal: "right",
+      horizontal: "center",
     }}
     {...props}
   />
@@ -86,7 +87,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const FilterBar = () => {
+const FilterButton = () => {
   const ctx = useContext(FilterContext)
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -99,14 +100,6 @@ const FilterBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  // const filterHandler = (regionValue) => {
-  //   ctx.onRegionFilter(regionValue)
-  // };
-  
-  // const filterCleanHandler = () => {
-  //   ctx.onRegionFilter(selectedRegion)
-  // };
 
 
   return (
@@ -129,6 +122,7 @@ const FilterBar = () => {
           sx={styledbtn}
           onClick={handleClick}
           endIcon={<KeyboardArrowDownIcon />}
+          startIcon={<PlaceOutlinedIcon />}
         >
           Filter by Region
         </Button>
@@ -137,6 +131,7 @@ const FilterBar = () => {
         id="demo-customized-menu"
         MenuListProps={{
           "aria-labelledby": "demo-customized-button",
+          
         }}
         anchorEl={anchorEl}
         open={open}
@@ -168,6 +163,7 @@ const FilterBar = () => {
               alignItems: "center",
               display: "flex",
             }}>
+
             <Button
               sx={styledMenubtn}
               onClick={() => {
@@ -219,4 +215,4 @@ const FilterBar = () => {
   );
 };
 
-export default FilterBar;
+export default FilterButton;

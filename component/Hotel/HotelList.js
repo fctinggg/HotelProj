@@ -15,7 +15,7 @@ const HotelList = (props) => {
   
   const hotelsWithAmen = formattedHotels(hotels, hotelamenities);
 
-  console.log(hotelsWithAmen)
+
   return (
   <Fragment>
     <ul className={classes.list}>

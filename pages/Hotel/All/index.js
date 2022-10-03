@@ -106,39 +106,67 @@ import FilterContext from "../../../store/filterContext";
 const AllHotel = (props) => {
   const ctx = useContext(FilterContext);
 
-  console.log(props.hotelPopularAmenities)
   const updatedHotels = props.hotels;
+  const hotelamenities = props.hotelPopularAmenities;
 
-  const [data, setData] = useState(updatedHotels);
+  const formattedHotels = (updatedHotels, hotelamenities) =>
+    updatedHotels.map((obj, i) => ({
+      ...obj,
+      updatedHotels: hotelamenities[i],
+    }));
+  const updatedHotelsWithAmen = formattedHotels(updatedHotels, hotelamenities);
+
+  const [data, setData] = useState(updatedHotelsWithAmen);
 
   const filteredRegion = ctx.filteredRegion;
+  const filteredAmenities = ctx.filteredAmenities;
+  
 
-  // console.log(updatedHotels);
-
-  const applyFilter = () => {
-    if(filteredRegion) {
-    const result = updatedHotels.filter((hotel) => {
-      return hotel.region === filteredRegion
-    });
-    console.log(data);
-    setData(result);
-  };
-    if(filteredRegion === null) {
-      const result = updatedHotels.filter((hotel) => {
-        return hotel.region !== filteredRegion
-      });
-      console.log(data);
-      setData(result);
-    };
+  const applyAmenitiesFilter = () => {
+    if (filteredAmenities) {
+      let filteredHotels = []
+      updatedHotelsWithAmen.filter((item) => {
+          for (let i = 0; i < filteredAmenities.length; i++) {
+          if (item.updatedHotels.includes((filteredAmenities[i].toString()))) {
+            if (filteredHotels.find((filteredHotel) => filteredHotel.id === item.id)) {
+              return
+            } filteredHotels.push(item)
+          }
+        }
+      })
+    setData(filteredHotels)
+}
+    if (filteredAmenities === null) {
+      setData(updatedHotelsWithAmen)
+      }
 }
 
+  const applyRegionFilter = () => {
+    if (filteredRegion) {
+      const result = updatedHotelsWithAmen.filter((hotel) => {
+        return hotel.region === filteredRegion;
+      });
+      setData(result);
+    }
+    if (filteredRegion === null) {
+      const result = updatedHotelsWithAmen.filter((hotel) => {
+        return hotel.region !== filteredRegion;
+      });
+      setData(result);
+    }
+  };
+
   useEffect(() => {
-    applyFilter();
-  }, [filteredRegion]);
+    applyRegionFilter();
+    applyAmenitiesFilter();
+  }, [filteredRegion, filteredAmenities]);
 
   return (
     <Fragment>
-      <AllHotelPage hotels={data} amenities={props.hotelPopularAmenities}></AllHotelPage>
+      <AllHotelPage
+        hotels={data}
+        amenities={props.hotelPopularAmenities}
+      ></AllHotelPage>
     </Fragment>
   );
 };
@@ -165,24 +193,24 @@ export async function getStaticProps() {
     hotelReviews.push(hotels[i].review);
   }
 
-  let hotelRoomTypes = [];
-  for (let i = 0; i < hotels.length; i++) {
-    for (let j = 0; j < hotels[i].roomTypes.length; j++) {
-      hotelRoomTypes.push(hotels[i].roomTypes[j]);
-    }
-  }
+  // let hotelRoomTypes = [];
+  // for (let i = 0; i < hotels.length; i++) {
+  //   for (let j = 0; j < hotels[i].roomTypes.length; j++) {
+  //     hotelRoomTypes.push(hotels[i].roomTypes[j]);
+  //   }
+  // }
 
-  let roomAmenities = [];
-  for (let i = 0; i < hotels.length; i++) {
-    for (let j = 0; j < hotels[i].roomTypes.length; j++) {
-      roomAmenities.push(hotels[i].roomTypes[j].amenities);
-    }
-  }
+  // let roomAmenities = [];
+  // for (let i = 0; i < hotels.length; i++) {
+  //   for (let j = 0; j < hotels[i].roomTypes.length; j++) {
+  //     roomAmenities.push(hotels[i].roomTypes[j].amenities);
+  //   }
+  // }
 
-  let hotelRoomType = [...hotelRoomTypes];
-  for (let i = 0; i < hotelRoomTypes.length; i++) {
-    hotelRoomTypes.concat().roomAmenities;
-  }
+  // let hotelRoomType = [...hotelRoomTypes];
+  // for (let i = 0; i < hotelRoomTypes.length; i++) {
+  //   hotelRoomTypes.concat().roomAmenities;
+  // }
 
   client.close();
 
@@ -198,7 +226,7 @@ export async function getStaticProps() {
       })),
       hotelReviews: hotelReviews,
       hotelPopularAmenities: hotelPopularAmenities,
-      hotelRoomTypes: hotelRoomType,
+      // hotelRoomTypes: hotelRoomType,
     },
     revalidate: 1,
   };
