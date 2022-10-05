@@ -6,20 +6,20 @@ const HotelList = (props) => {
   const hotels = props.hotels;
   const hotelamenities = props.amenities;
 
-  const formattedHotels = (hotels, hotelamenities) => hotels.map((obj, i) => (
-    {
-      ...obj,
-      hotels: hotelamenities[i]
-    }
-  ))
+  // const formattedHotels = (hotels, hotelamenities) => hotels.map((obj, i) => (
+  //   {
+  //     ...obj,
+  //     hotels: hotelamenities[i]
+  //   }
+  // ))
   
-  const hotelsWithAmen = formattedHotels(hotels, hotelamenities);
+  // const hotelsWithAmen = formattedHotels(hotels, hotelamenities);
 
 
   return (
   <Fragment>
     <ul className={classes.list}>
-    {hotelsWithAmen.map((hotel) => (
+    {/* {hotelsWithAmen.map((hotel) => (
       <HotelItem
         key={hotel.id}
         id={hotel.id}
@@ -31,7 +31,7 @@ const HotelList = (props) => {
         popularAmenities={hotel.hotels}
       />
       ))
-      }
+      } */}
   </ul>
   </Fragment>)
 }

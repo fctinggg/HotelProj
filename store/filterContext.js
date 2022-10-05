@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{ useState } from "react";
 
 const FilterContext = React.createContext({
   filteredRegion: '',
@@ -11,10 +11,7 @@ export const FilterContextProvider = (props) => {
   const [filteredRegion, setFilteredRegion] = useState();
   const [filteredAmenities, setFilteredAmenities] = useState();
 
-  const regionFilterHandler = (region) => {
-    console.log(region);
-    setFilteredRegion(region);
-  };
+
 
   const amenitiesFilterHandler = (conditionValue) => {
     console.log(conditionValue);
