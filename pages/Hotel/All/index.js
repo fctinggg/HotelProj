@@ -1,14 +1,19 @@
 // Hotel/All
 import AllHotelPage from "../../../component/Hotel/AllHotel";
-import React, { createContext, useEffect, useState } from "react";
-import FilterContext from "../../../store/filterContext";
-import { server } from '../../../config/index'
+import React, { createContext, useEffect, useState, useContext } from "react";
 import HotelContext from '../../../store/hotelContext'
 import {getHotelData} from '../../api/hotelData'
 
 
 const AllHotel = (props) => {
+ const ctx = useContext(HotelContext)
+  
+ useEffect(() => {
+  ctx.dataHandler(props.hotels);
+ }, [])
 
+ 
+  
 //   const formattedHotels = (updatedHotels, hotelamenities) =>
 //     updatedHotels.map((obj, i) => ({
 //       ...obj,
@@ -63,12 +68,10 @@ const AllHotel = (props) => {
 
   return (
     <>
-      <HotelContext.Provider value={{hotelsData: props.hotels}}>
       <AllHotelPage
         // hotels={data}
         // amenities={props.hotelPopularAmenities}
       ></AllHotelPage>
-      </HotelContext.Provider>
     </>
   );
 };

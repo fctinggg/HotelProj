@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Box from "@mui/material/Box";
-import FilterContext from "../../store/filterContext";
+import HotelContext from "../../store/hotelContext";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import Checkbox from "@mui/material/Checkbox";
 import { FormControlLabel } from "@mui/material";
@@ -74,7 +74,7 @@ const StyledMenu = styled((props) => (
 }));
 
 const FilterCheckbox = () => {
-  const ctx = useContext(FilterContext);
+  const ctx = useContext(HotelContext)
   const [anchorEl, setAnchorEl] = useState(null);
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
@@ -139,6 +139,14 @@ const FilterCheckbox = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const  handleClean = () => {
+    setChecked1(false)
+    setChecked2(false)
+    setChecked3(false)
+    setChecked4(false)
+    setSavedCondition([])
+  }
 
   return (
     <div>
@@ -298,6 +306,26 @@ const FilterCheckbox = () => {
             }}
           >
             Submit
+          </Button>
+        </Box>
+
+        <Box
+          sx={{
+            py: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <Button
+            sx={submitBtn}
+            onClick={() => {
+              handleClean()
+              ctx.onAmenitiesFilter([]);
+              handleClose();
+            }}
+          >
+            Clean
           </Button>
         </Box>
       </StyledMenu>

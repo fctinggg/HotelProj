@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Box from "@mui/material/Box";
-import FilterContext from "../../store/filterContext";
+import HotelContext from "../../store/hotelContext";
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
 const styledbtn = {
@@ -88,7 +88,7 @@ const StyledMenu = styled((props) => (
 }));
 
 const FilterButton = () => {
-  const ctx = useContext(FilterContext)
+  const ctx = useContext(HotelContext)
   const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
@@ -147,7 +147,7 @@ const FilterButton = () => {
             <Button
               sx={styledMenubtn}
               onClick={() => {
-                ctx.onRegionFilter('Kowloon');
+                ctx.onRegionFilter(['Kowloon']);
                 handleClose();
               }}
               value='Kowloon'
@@ -167,7 +167,7 @@ const FilterButton = () => {
             <Button
               sx={styledMenubtn}
               onClick={() => {
-                ctx.onRegionFilter('New Territories');
+                ctx.onRegionFilter(['New Territories']);
                 handleClose();
               }}
             >
@@ -185,7 +185,7 @@ const FilterButton = () => {
             <Button
               sx={styledMenubtn}
               onClick={() => {
-                ctx.onRegionFilter('Hong Kong Island');
+                ctx.onRegionFilter(['Hong Kong Island']);
                 handleClose();
               }}
             >
@@ -203,7 +203,7 @@ const FilterButton = () => {
             <Button
               sx={submitBtn}
               onClick={() => {
-                ctx.onRegionFilter(null);
+                ctx.onRegionFilter([]);
                 handleClose();
               }}
             >

@@ -14,13 +14,11 @@ import RatingUI from "../ui/Rating";
 import LikeSaveIcon from "../ui/LikeSave";
 
 const HotelItem = (props) => {
-  const airportService =
-    props.popularAmenities.indexOf("airportService") > -1 ? true : false;
-  const swimmingPool =
-    props.popularAmenities.indexOf("swimmingPool") > -1 ? true : false;
+
+  const airportService = props.popularAmenities.indexOf("airportService") > -1 ? true : false;
+  const swimmingPool = props.popularAmenities.indexOf("swimmingPool") > -1 ? true : false;
   const parking = props.popularAmenities.indexOf("parking") > -1 ? true : false;
-  const smokingArea =
-    props.popularAmenities.indexOf("smokingArea") > -1 ? true : false;
+  const smokingArea = props.popularAmenities.indexOf("smokingArea") > -1 ? true : false;
 
   return (
     <Fragment>

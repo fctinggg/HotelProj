@@ -1,38 +1,29 @@
-import HotelItem from './HotelItem';
 import classes from './HotelList.module.css';
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import HotelContext from '../../store/hotelContext';
+import HotelItem from './HotelItem';
 
-const HotelList = (props) => {
-  const hotels = props.hotels;
-  const hotelamenities = props.amenities;
-
-  // const formattedHotels = (hotels, hotelamenities) => hotels.map((obj, i) => (
-  //   {
-  //     ...obj,
-  //     hotels: hotelamenities[i]
-  //   }
-  // ))
-  
-  // const hotelsWithAmen = formattedHotels(hotels, hotelamenities);
-
+const HotelList = () => {
+  const ctx = useContext(HotelContext);
+  const hotels = ctx.updatedHotelsData
 
   return (
   <Fragment>
-    <ul className={classes.list}>
-    {/* {hotelsWithAmen.map((hotel) => (
+    {ctx.updatedHotelsData && <ul className={classes.list}>
+    {hotels.map((hotel) => (
       <HotelItem
-        key={hotel.id}
-        id={hotel.id}
+        key={hotel._id}
+        id={hotel._id}
         hotelName={hotel.hotelName}
         location={hotel.location}
         region={hotel.region}
         openYear={hotel.openYear}
         totalReview={hotel.totalReview}
-        popularAmenities={hotel.hotels}
+        popularAmenities={hotel.popularAmenities}
       />
       ))
-      } */}
-  </ul>
+      }
+  </ul>}
   </Fragment>)
 }
 

@@ -5,14 +5,9 @@ import HotelList from "./HotelList";
 import classes from "./AllHotel.module.css";
 import FilterButton from "../ui/FilterButton";
 import FilterCheckbox from "../ui/FilterCheckbox";
-import { useContext } from "react";
-import HotelContext from '../../store/hotelContext';
 
-const AllHotelPage = (props) => {
-
-  const ctx = useContext(HotelContext)
-  console.log(ctx)
-
+const AllHotelPage = () => {
+  
   return (
     <Fragment>
       <div className={classes.container}>
@@ -51,10 +46,7 @@ const AllHotelPage = (props) => {
         >
           <Grid item>
             <Box sx={{ px: 2 }}>
-              <HotelList
-                hotels={props.hotels}
-                amenities={props.amenities}
-              ></HotelList>
+              <HotelList></HotelList>
             </Box>
           </Grid>
         </Box>
