@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import HotelContext from "../../store/hotelContext";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import Checkbox from "@mui/material/Checkbox";
@@ -74,7 +75,7 @@ const StyledMenu = styled((props) => (
 }));
 
 const FilterCheckbox = () => {
-  const ctx = useContext(HotelContext)
+  const ctx = useContext(HotelContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
@@ -140,13 +141,13 @@ const FilterCheckbox = () => {
     setAnchorEl(null);
   };
 
-  const  handleClean = () => {
-    setChecked1(false)
-    setChecked2(false)
-    setChecked3(false)
-    setChecked4(false)
-    setSavedCondition([])
-  }
+  const handleClean = () => {
+    setChecked1(false);
+    setChecked2(false);
+    setChecked3(false);
+    setChecked4(false);
+    setSavedCondition([]);
+  };
 
   return (
     <div>
@@ -289,45 +290,58 @@ const FilterCheckbox = () => {
             }
           />
         </Box>
-        
-        <Box
-          sx={{
-            py: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
-          <Button
-            sx={submitBtn}
-            onClick={() => {
-              ctx.onAmenitiesFilter(savedCondition);
-              handleClose();
-            }}
-          >
-            Submit
-          </Button>
-        </Box>
 
-        <Box
+        <Grid
+          container
           sx={{
-            py: 1,
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
           }}
         >
-          <Button
-            sx={submitBtn}
-            onClick={() => {
-              handleClean()
-              ctx.onAmenitiesFilter([]);
-              handleClose();
-            }}
-          >
-            Clean
-          </Button>
-        </Box>
+          <Grid item sx={{mx:0.5}}>
+            <Box
+              sx={{
+                py: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <Button
+                sx={submitBtn}
+                onClick={() => {
+                  ctx.onAmenitiesFilter(savedCondition);
+                  handleClose();
+                }}
+              >
+                Submit
+              </Button>
+            </Box>
+          </Grid>
+
+          <Grid item sx={{mx:0.5}}>
+            <Box
+              sx={{
+                py: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <Button
+                sx={submitBtn}
+                onClick={() => {
+                  handleClean();
+                  ctx.onAmenitiesFilter([]);
+                  handleClose();
+                }}
+              >
+                Clean
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
       </StyledMenu>
     </div>
   );

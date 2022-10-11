@@ -1,0 +1,40 @@
+.title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.amenitiesBox {
+  border-left: 1px solid black;
+}
+
+.chipParagraph {
+  white-space: pre-wrap;
+  font-size: xx-small;
+}
+
+.paragraph {
+  white-space: pre-wrap;
+}
+
+@media(min-Width:600px) {
+  .title {
+    font-size: 13px;
+  }
+
+  .info {
+    font-size: small;
+  }
+}
+
+@media(min-Width:680px) {
+  .title {
+    font-size: medium;
+  }
+}
+
+@media(min-Width:1000px) {
+  .title {
+    font-size: large;
+    font-weight: bold;
+  }
+}

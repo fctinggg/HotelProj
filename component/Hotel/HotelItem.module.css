@@ -13,3 +13,9 @@
 .textbox {
   width: 350px;
 }
+
+@media (max-width: 900px) {
+  .reviewsName {
+    text-align: center;
+  }
+}

@@ -14,9 +14,10 @@ const filterReducer = (state, action) => {
 
   if (action.type === "REGION_FILTER") {
     if (action.val) {
+      const regionCondition = action.val;
       const regionUpdatedHotelsList = state.originalData.filter((hotel) =>
-      action.val.every((val) => hotel.region.indexOf(val) > -1)
-      );  
+        regionCondition.every((val) => hotel.region.indexOf(val) > -1)
+      );
       const updatedHotelsList = regionUpdatedHotelsList.filter((hotel) =>
         state.amenitiesCondition.every(
           (val) => hotel.popularAmenities.indexOf(val) > -1
@@ -25,24 +26,9 @@ const filterReducer = (state, action) => {
       return {
         ...state,
         updatedHotelsList,
-        regionCondition: action.val,
+        regionCondition: regionCondition,
       };
     }
-    // if (action.val === []) {
-    //   const regionUpdatedHotelsList = state.originalData.filter((hotel) =>
-    //   action.val.every((val) => hotel.region.indexOf(val) > -1)
-    //   );      
-    //   const updatedHotelsList = regionUpdatedHotelsList.filter((hotel) =>
-    //     state.amenitiesCondition.every(
-    //       (val) => hotel.popularAmenities.indexOf(val) > -1
-    //     )
-    //   );
-
-    //   return {
-    //     ...state,
-    //     updatedHotelsList: updatedHotelsList,
-    //   };
-    // }
   }
 
   if (action.type === "AMENITIES_FILTER") {
@@ -56,28 +42,15 @@ const filterReducer = (state, action) => {
           (val) => hotel.popularAmenities.indexOf(val) > -1
         )
       );
+
       return {
         ...state,
         updatedHotelsList,
         amenitiesCondition: amenitiesCondition,
       };
     }
-    // if (action.val === []) {
-    //   const regionUpdatedHotelsList = state.originalData.filter((hotel) =>
-    //     state.regionCondition.every((val) => hotel.region.indexOf(val) > -1)
-    //   );
-    //   const updatedHotelsList = regionUpdatedHotelsList.filter((hotel) =>
-    //     action.val.every((val) => hotel.popularAmenities.indexOf(val) > -1)
-    //   );
-    //   console.log(state.regionCondition);
-    //   return {
-    //     ...state,
-    //     updatedHotelsList: updatedHotelsList,
-    //     amenitiesCondition: action.val
-    //   };
-    // }
   }
-};
+}
 
 export const HotelContextProvider = (props) => {
   const [filteredData, dispatchFilter] = useReducer(filterReducer, {});
@@ -88,26 +61,24 @@ export const HotelContextProvider = (props) => {
 
   const regionFilterHandler = (region) => {
     dispatchFilter({ type: "REGION_FILTER", val: region });
-    console.log(region);
   };
 
   const amenitiesFilterHandler = (amenitiesCondition) => {
     dispatchFilter({ type: "AMENITIES_FILTER", val: amenitiesCondition });
   };
 
-  console.log("-------------------- condition filtered");
-  console.log(filteredData);
-
   const updatedHotelsData = filteredData.updatedHotelsList;
+  const originalData = filteredData.originalData;
 
   //派個setHotel出去改Hotel
   return (
     <HotelContext.Provider
       value={{
+        originalData: originalData,
         updatedHotelsData: updatedHotelsData,
         dataHandler: dataHandler,
         onRegionFilter: regionFilterHandler,
-        onAmenitiesFilter: amenitiesFilterHandler,
+        onAmenitiesFilter: amenitiesFilterHandler
       }}
     >
       {props.children}

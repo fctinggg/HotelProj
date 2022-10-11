@@ -7,6 +7,8 @@ const HotelList = () => {
   const ctx = useContext(HotelContext);
   const hotels = ctx.updatedHotelsData
 
+  console.log(hotels)
+
   return (
   <Fragment>
     {ctx.updatedHotelsData && <ul className={classes.list}>

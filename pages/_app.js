@@ -3,6 +3,7 @@ import { Provider } from 'next-auth/client'
 import Head from "next/head";
 import Layout from '../component/layout/Layout';
 import { HotelContextProvider } from '../store/hotelContext';
+import { DatePickContextProvider } from '../store/datePickContext'
 
 function MyApp({ Component, pageProps }) {
 return (
@@ -13,9 +14,11 @@ return (
   </Head>
   <Provider session={pageProps.session}>
   <HotelContextProvider>
+  <DatePickContextProvider>
   <Layout>
   <Component {...pageProps} />
   </Layout>
+  </DatePickContextProvider>
   </HotelContextProvider>
   </Provider>
   </>
