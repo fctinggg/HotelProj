@@ -9,6 +9,9 @@ import HotelContext from "../../store/hotelContext";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import Checkbox from "@mui/material/Checkbox";
 import { FormControlLabel } from "@mui/material";
+import { actionType } from "../../store/actionType";
+
+const clean = [];
 
 const styledbtn = {
   background: "#D0B8A8",
@@ -299,7 +302,7 @@ const FilterCheckbox = () => {
             display: "flex",
           }}
         >
-          <Grid item sx={{mx:0.5}}>
+          <Grid item sx={{ mx: 0.5 }}>
             <Box
               sx={{
                 py: 1,
@@ -311,7 +314,10 @@ const FilterCheckbox = () => {
               <Button
                 sx={submitBtn}
                 onClick={() => {
-                  ctx.onAmenitiesFilter(savedCondition);
+                  ctx.dispatchFilter({
+                    type: actionType.AMENITIES_FILTER,
+                    payload: {amenities: savedCondition}
+                  });
                   handleClose();
                 }}
               >
@@ -320,7 +326,7 @@ const FilterCheckbox = () => {
             </Box>
           </Grid>
 
-          <Grid item sx={{mx:0.5}}>
+          <Grid item sx={{ mx: 0.5 }}>
             <Box
               sx={{
                 py: 1,
@@ -333,7 +339,10 @@ const FilterCheckbox = () => {
                 sx={submitBtn}
                 onClick={() => {
                   handleClean();
-                  ctx.onAmenitiesFilter([]);
+                  ctx.dispatchFilter({
+                    type: actionType.AMENITIES_FILTER,
+                    payload: {amenities: clean}
+                  });
                   handleClose();
                 }}
               >

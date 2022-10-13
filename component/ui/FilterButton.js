@@ -1,11 +1,17 @@
-import { useState, useContext} from "react";
+import { useState, useContext } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Box from "@mui/material/Box";
 import HotelContext from "../../store/hotelContext";
-import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import { actionType } from "../../store/actionType";
+
+const clean = []
+const Kowloon = ["Kowloon"]
+const NewTerritories = ["New Territories"]
+const HongKongIsland = ["Hong Kong Island"]
 
 const styledbtn = {
   background: "#D0B8A8",
@@ -22,13 +28,13 @@ const styledMenubtn = {
   fontSize: "3px",
   width: "80%",
   padding: "2",
-  backgroundColor: '#7D6E83',
+  backgroundColor: "#7D6E83",
   "&:hover": {
     border: "solid 1px",
     borderColor: "#7D6E83",
     background: "Pearl",
     opacity: 0.6,
-    color: "#7D6E83"
+    color: "#7D6E83",
   },
 };
 
@@ -88,7 +94,7 @@ const StyledMenu = styled((props) => (
 }));
 
 const FilterButton = () => {
-  const ctx = useContext(HotelContext)
+  const ctx = useContext(HotelContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
@@ -100,7 +106,6 @@ const FilterButton = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   return (
     <div>
@@ -131,85 +136,107 @@ const FilterButton = () => {
         id="demo-customized-menu"
         MenuListProps={{
           "aria-labelledby": "demo-customized-button",
-          
         }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
-          <Box
-            sx={{
-              py: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}>
-            <Button
-              sx={styledMenubtn}
-              onClick={() => {
-                ctx.onRegionFilter(['Kowloon']);
-                handleClose();
-              }}
-              value='Kowloon'
-            >
-              Kowloon
-            </Button>
-          </Box>
-          
-          <Box
-            sx={{
-              py: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}>
+        <Box
+          sx={{
+            py: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <Button
+            sx={styledMenubtn}
+            onClick={() => {
+              ctx.dispatchFilter({
+                type: actionType.REGION_FILTER,
+                payload: {
+                  region:Kowloon
+                },
+              });
+              handleClose();
+            }}
+            value="Kowloon"
+          >
+            Kowloon
+          </Button>
+        </Box>
 
-            <Button
-              sx={styledMenubtn}
-              onClick={() => {
-                ctx.onRegionFilter(['New Territories']);
-                handleClose();
-              }}
-            >
-              New Territories
-            </Button>
-          </Box>
+        <Box
+          sx={{
+            py: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <Button
+            sx={styledMenubtn}
+            onClick={() => {
+              ctx.dispatchFilter({
+                type: actionType.REGION_FILTER,
+                payload: {
+                  region:NewTerritories
+                },
+              });
+              handleClose();
+            }}
+          >
+            New Territories
+          </Button>
+        </Box>
 
-          <Box
-            sx={{
-              py: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}>
-            <Button
-              sx={styledMenubtn}
-              onClick={() => {
-                ctx.onRegionFilter(['Hong Kong Island']);
-                handleClose();
-              }}
-            >
-              Hong Kong Island
-            </Button>
-          </Box>
-        
-          <Box
-            sx={{
-              py: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}>
-            <Button
-              sx={submitBtn}
-              onClick={() => {
-                ctx.onRegionFilter([]);
-                handleClose();
-              }}
-            >
-              Clean
-            </Button>
-          </Box>
+        <Box
+          sx={{
+            py: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <Button
+            sx={styledMenubtn}
+            onClick={() => {
+              ctx.dispatchFilter({
+                type: actionType.REGION_FILTER,
+                payload: {
+                  region:HongKongIsland
+                },
+              });
+              handleClose();
+            }}
+          >
+            Hong Kong Island
+          </Button>
+        </Box>
+
+        <Box
+          sx={{
+            py: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <Button
+            sx={submitBtn}
+            onClick={() => {
+              ctx.dispatchFilter({
+                type: actionType.REGION_FILTER,
+                payload: {
+                  region:clean
+                },
+              });
+              handleClose();
+            }}
+          >
+            Clean
+          </Button>
+        </Box>
       </StyledMenu>
     </div>
   );

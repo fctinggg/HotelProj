@@ -22,6 +22,7 @@ import Chip from "@mui/material/Chip";
 import CommonButton from "../ui/CommonButton";
 import { useContext } from "react";
 import DatePickContext from "../../store/datePickContext";
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 
 const styledbtn = {
   borderRadius: "2",
@@ -36,6 +37,13 @@ const styledbtn = {
     opacity: 0.6,
     color: "#E78A61",
   },
+  "&:disabled": {
+    border: "solid 0.5px",
+    borderColor: "#D3D3D3",
+    background: "#D3D3D3",
+    opacity: 0.6,
+    color: "#8D918D",
+  }
 };
 
 const theme = createTheme({
@@ -55,18 +63,19 @@ const theme = createTheme({
 
 const HotelRoomItem = (props) => {
   const selectedCtx = useContext(DatePickContext)
-  const startDate = selectedCtx.selectedStartDate
-  console.log(props.stock[startDate])
+  const {selectedStartDate} = selectedCtx.pickedData
 
   const allowSmoke = props.smoking ? 1 : 0;
 
-  const soldOut = props.stock[startDate] == 0 ? true : false;
+  const soldOut = props.stock == 0 ? true : false;
   const almostSoldOut =
-  props.stock[startDate] > 0 && props.stock[startDate] < 10 ? true : false;
-  const sufficient = props.stock[startDate] > 10 && props.stock[startDate] < 21 ? true : false;
-  const many = props.stock[startDate] > 21 ? true : false;
+  props.stock[selectedStartDate] > 0 && props.stock[selectedStartDate] < 10 ? true : false;
+  const sufficient = props.stock[selectedStartDate] > 10 && props.stock[selectedStartDate] < 21 ? true : false;
+  const many = props.stock[selectedStartDate] > 21 ? true : false;
 
   const specialMsg = props.specialMsg.length > 0 ? true : false;
+
+  const soldOutStyle = soldOut? { borderColor: "#D3D3D3", backgroundColor: "#D3D3D3", color: "white" } : { backgroundColor: "#C48793", color: "white" }
 
   return (
     <li>
@@ -179,12 +188,34 @@ const HotelRoomItem = (props) => {
                         />
                       </Grid>
                     )}
+                    {soldOut &&
+                     (<Grid container item xs={12} py={1} pt={1}>
+                        <Chip
+                          sx={{
+                            backgroundColor: "#8D918D",
+                            color: "white",
+                            "& .MuiChip-icon": {
+                              color: "white",
+                            },
+                            width: "auto",
+                            py: { sm: 2, lm: 1 },
+                          }}
+                          size="small"
+                          label={
+                            <section className={classes.chipParagraph}>
+                              Sold out? Let's select another day!
+                            </section>
+                          }
+                          icon={<NotificationImportantIcon sx={{ color: "white" }} />}
+                        />
+                      </Grid>
+                    )}
                     <Grid container item xs={12} py={1} pt={1}>
                       <Card
                         variant="outlined"
-                        sx={{ backgroundColor: "#C48793", color: "white" }}
+                        sx={soldOutStyle}
                       >
-                        <Grid container py={1} px={1}>
+                        <Grid container py={1} px={1} pr={1.2} pb={1.2}>
                           {almostSoldOut && <AlarmIcon fontSize="small" />}
                           <Grid
                             item
@@ -290,7 +321,7 @@ const HotelRoomItem = (props) => {
                   <Grid item><Box py={3}></Box></Grid>
                   </Grid>
                   <Grid item xs={12} py={1} pt={3} px={1} display='flex' justifyContent='right'>
-                  <CommonButton sx={styledbtn}>BOOK NOW!</CommonButton>
+                  {soldOut? <CommonButton sx={styledbtn} disabled={true}>BOOK NOW!</CommonButton> : <CommonButton sx={styledbtn}>BOOK NOW!</CommonButton>}
                   </Grid>
                 </Grid>
               </Grid>

@@ -19,7 +19,10 @@ import { useContext } from "react";
 const HotelDetail = (props) => {
   const selectedCtx = useContext(DatePickContext);
   console.log("-----------HotelDetail Props-----------");
-  console.log(selectedCtx.availableRoomList)
+
+  const {availableRoomList, disableRoomList} = selectedCtx.pickedData
+
+  console.log(availableRoomList)
 
   const bestSeller = props.singleHotelData.totalReview >= 4 ? true : false;
   const bestLocation =
@@ -160,6 +163,7 @@ const HotelDetail = (props) => {
                     </Box>
                   </Grid>
                   <Grid container pt={10} pb={4}>
+                    <Box className={classes.dummyFont}>dummy test data: 5 Oct - 10 Oct</Box>
                     <DatePicker />
                   </Grid>
                 </Grid>
@@ -197,7 +201,7 @@ const HotelDetail = (props) => {
               <Grid item xs={12}>
                 <Box>
                   <ul className={classes.list}>
-                    {selectedCtx.availableRoomList.map((ele) =>
+                    {availableRoomList.map((ele) =>
                       ele.map((roomType) => (
                         <HotelRoomItem
                           roomName={roomType.roomName}
@@ -213,6 +217,26 @@ const HotelDetail = (props) => {
                   </ul>
                 </Box>
               </Grid>
+              {/* disable */}
+              {disableRoomList && <Grid item xs={12}>
+                <Box>
+                  <ul className={classes.list}>
+                    {disableRoomList.map((ele) =>
+                      ele.map((roomType) => (
+                        <HotelRoomItem
+                          roomName={roomType.roomName}
+                          beds={roomType.beds}
+                          smoking={roomType.smoking}
+                          roomAmenities={roomType.roomAmenities}
+                          stock={0}
+                          specialMsg={roomType.specialMsg}
+                          key={roomType.roomName}
+                        />
+                      ))
+                    )}
+                  </ul>
+                </Box>
+              </Grid>}
             </Grid>
           </Grid>
         </Card>

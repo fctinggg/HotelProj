@@ -5,14 +5,16 @@ import HotelDetail from "../../../component/Hotel/HotelDetail";
 import { getHotelData,getSingleHotelData } from "../../api/hotelData";
 import DatePickContext from '../../../store/datePickContext'
 import { useContext,useEffect } from "react";
+import { actionType } from "../../../store/actionType";
 
 const hotelDetailPage = (props) => {
   const router = useRouter();
   const { hotelId } = router.query;
   const selectedCtx = useContext(DatePickContext);
+  const singleHotel = Object.values(props)
 
   useEffect(() => {
-    selectedCtx.selectedHotelDataHandler(Object.values(props));
+    selectedCtx.dispatchPickup({type:actionType.DATA_INSERT, payload:{singleHotel}})
    }, [])
 
    console.log('----------converted array-------------')

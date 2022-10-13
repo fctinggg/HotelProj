@@ -1,27 +1,33 @@
-import '../styles/globals.css'
-import { Provider } from 'next-auth/client'
+import "../styles/globals.css";
+import { Provider } from "next-auth/client";
 import Head from "next/head";
-import Layout from '../component/layout/Layout';
-import { HotelContextProvider } from '../store/hotelContext';
-import { DatePickContextProvider } from '../store/datePickContext'
+import Layout from "../component/layout/Layout";
+import { HotelContextProvider } from "../store/hotelContext";
+import { DatePickContextProvider } from "../store/datePickContext";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+
 
 function MyApp({ Component, pageProps }) {
-return (
-  <>
-  <Head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"></meta> 
-    <meta name="format-detection" content="telephone=no"></meta> 
-  </Head>
-  <Provider session={pageProps.session}>
-  <HotelContextProvider>
-  <DatePickContextProvider>
-  <Layout>
-  <Component {...pageProps} />
-  </Layout>
-  </DatePickContextProvider>
-  </HotelContextProvider>
-  </Provider>
-  </>
+  return (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        ></meta>
+        <meta name="format-detection" content="telephone=no"></meta>
+      </Head>
+      <Provider session={pageProps.session}>
+        <HotelContextProvider>
+          <DatePickContextProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </DatePickContextProvider>
+        </HotelContextProvider>
+      </Provider>
+    </>
   );
 }
 export default MyApp;

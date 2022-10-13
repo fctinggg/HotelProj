@@ -1,18 +1,22 @@
 // Hotel/All
 import AllHotelPage from "../../../component/Hotel/AllHotel";
 import React, { useEffect, useContext } from "react";
-import HotelContext from '../../../store/hotelContext'
-import {getHotelData} from '../../api/hotelData'
-
+import HotelContext from "../../../store/hotelContext";
+import { getHotelData } from "../../api/hotelData";
+import { actionType } from "../../../store/actionType";
 
 const AllHotel = (props) => {
- const ctx = useContext(HotelContext)
-  
- useEffect(() => {
-  ctx.dataHandler(props.hotels);
- }, [])
+  const ctx = useContext(HotelContext);
+  const hotels = props.hotels
 
- 
+  useEffect(() => {
+    ctx.dispatchFilter({
+      type: actionType.DATA_INSERT,
+      payload: {
+        hotels
+      },
+    });
+  }, []);
 
   return (
     <>

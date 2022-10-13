@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,10 +9,14 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Fragment } from "react";
 import Link from "next/link";
 import CommonButton from "../ui/CommonButton";
 import { useSession, signOut } from 'next-auth/client'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+import { useState } from "react";
+import CartModal from './CartModal';
+
 
 
 const styledBtn = {
@@ -29,7 +32,11 @@ const styledBtn = {
 
 const MainNav = () => {
   const [session, loading] = useSession();
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const handleModalOpen = () => setOpen(true);
+  const handleModalClose = () => setOpen(false);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -39,13 +46,14 @@ const MainNav = () => {
     setAnchorElUser(null);
   };
 
-  function logoutHandler() {
+  const logoutHandler = () => {
     signOut();
   }
 
 
   return (
-    <Fragment>
+    <>
+      <CartModal open={open} onHandleModalClose={handleModalClose}/>
       <AppBar position="sticky" sx={{ bgcolor: "white" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -83,6 +91,12 @@ const MainNav = () => {
                   href= '/AboutUs'>
                   About Us
                 </Link>
+            </Box>
+
+            <Box px={2} pt={1}>
+            <Badge badgeContent={1} color='error'>
+              <ShoppingCartIcon sx={{color:'#958a99',cursor: 'pointer'}} onClick={handleModalOpen}/>
+            </Badge>
             </Box>
 
             {!session && !loading && 
@@ -138,7 +152,7 @@ const MainNav = () => {
           </Toolbar>
         </Container>
       </AppBar>
-    </Fragment>
+    </>
   );
 };
 

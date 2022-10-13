@@ -1,10 +1,10 @@
 import Button from '@mui/material/Button';
 
-const CommonButton = ({children, color, disable, size, sx, variant, type}) => {
+const CommonButton = ({children, color, disabled, size, sx, variant, type}) => {
   return (
     <Button
       color={color}
-      disable={disable}
+      disabled={disabled}
       size={size}
       sx={sx}
       variant={variant}

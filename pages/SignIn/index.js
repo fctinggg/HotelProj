@@ -17,8 +17,8 @@ const LoginPage = () => {
         <Image
         src={bg_img}
         alt="BackgroundImage"
-        width="1250px"
-        height="750px"
+        width="3250px"
+        height="2450px"
         layout="intrinsic"
         />
     </div>
@@ -27,7 +27,7 @@ const LoginPage = () => {
   </Fragment>
 };
 
-// 呢度導致每次入Signin都Send Http Req
+
 // export async function getServerSideProps(context) {
 //   const session = await getSession({req: context.req})
 

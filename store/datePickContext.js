@@ -1,5 +1,6 @@
-import { ReportProblem } from "@mui/icons-material";
+import { itCH } from "date-fns/locale";
 import { createContext, useReducer, useState } from "react";
+import { actionType } from "./actionType";
 
 const DatePickContext = createContext();
 
@@ -7,77 +8,85 @@ const defaultState = {
   originalSelectedHotelsData: [],
   updatedSelectedHotelsList: [],
   availableRoomList: [],
-  selectedStartDate: 'Wed Oct 05 2022'
+  selectedStartDate: "Wed Oct 05 2022",
 };
 
 const datePickReducer = (state, action) => {
-  if (action.type === "DATA_INSERT") {
-    const roomList = action.val
-    const availableRoomList = roomList.map((hotel) => hotel.roomTypes.map((roomType) => roomType))
-
-    return {
-      selectedStartDate: 'Wed Oct 05 2022',
-      originalSelectedHotelsData: action.val,
-      updatedSelectedHotelsList: action.val,
-      availableRoomList: availableRoomList
-    };
-  }
-
-  if (action.type === "DATEPICKER_FILTER") {
-    if (action.val) {
-      const selectedDateRange = action.val.map((date) => {
-        return date.toDateString();
-      });
-
-      const availableRoomList = state.originalSelectedHotelsData.map((hotel) =>
-        hotel.roomTypes.filter((roomType) =>
-          selectedDateRange.every(
-            (val) => roomType.availableDate.indexOf(val) > -1
-          )
-        )
-      );
-
-      const disableRoomList = state.originalSelectedHotelsData.map((hotel) =>
-        hotel.roomTypes.filter((roomType) =>
-          selectedDateRange.find(
-            (val) => roomType.notAvailableDate.indexOf(val) > -1
-          )
-        )
+  switch (action.type) {
+    case actionType.DATA_INSERT:
+      const roomList = action.payload.singleHotel;
+      const availableRoomList = roomList.map((hotel) =>
+        hotel.roomTypes.map((roomType) => roomType)
       );
 
       return {
-        ...state,
-        availableRoomList:availableRoomList,
-        selectedStartDate:selectedDateRange[0],
-        disableRoomList:disableRoomList
+        selectedStartDate: "Wed Oct 05 2022",
+        originalSelectedHotelsData: action.payload.singleHotel,
+        updatedSelectedHotelsList: action.payload.singleHotel,
+        availableRoomList: availableRoomList,
       };
-    }
+  }
+
+  switch (action.type) {
+    case actionType.DATEPICKER_FILTER:
+      if (action.payload.dateRange) {
+        //dedault select
+        let selectedDateRange = ["Wed Oct 05 2022", "Thu Oct 06 2022"];
+
+        if (action.payload.dateRange.length > 1) {
+          selectedDateRange = action.payload.dateRange.map((date) => {
+            return date.toDateString();
+          });
+        }
+
+        const getSelectedDate = state.originalSelectedHotelsData.map((hotel) =>
+          hotel.roomTypes.filter((roomType) => {
+            return selectedDateRange.every(
+              (date) => Object.keys(roomType.stock).indexOf(date) > -1
+            );
+          })
+        );
+
+        const getDateWithQuantity = state.originalSelectedHotelsData.map((hotel) =>
+        hotel.roomTypes.filter((roomType) => {
+          return selectedDateRange.every(
+            (date) => roomType.stock[date] > 0
+          );
+        })
+      );
+
+      const getDateWithNotAvailable = state.originalSelectedHotelsData.map((hotel) =>
+      hotel.roomTypes.filter((roomType) => {
+        return selectedDateRange.find(
+          (date) => roomType.stock[date] <= 0
+        );
+      })
+    );
+
+        console.log(getDateWithNotAvailable);
+        console.log(getDateWithQuantity);
+
+        return {
+          ...state,
+          availableRoomList:getDateWithQuantity,
+          selectedStartDate: selectedDateRange[0],
+          disableRoomList:getDateWithNotAvailable
+        };
+      }
   }
 };
 
 export const DatePickContextProvider = (props) => {
-  const [pickedData, dispatchPickup] = useReducer(datePickReducer, defaultState);
-
-  const dataHandler = (selectedHotelsDataList) => {
-    dispatchPickup({ type: "DATA_INSERT", val: selectedHotelsDataList });
-  };
-
-  const datePickerHandler = (dateRange) => {
-    dispatchPickup({ type: "DATEPICKER_FILTER", val: dateRange });
-  };
-
-  const availableRoomList = pickedData.availableRoomList
-  const selectedStartDate = pickedData.selectedStartDate
-  const disableRoomList = pickedData.disableRoomList
+  const [pickedData, dispatchPickup] = useReducer(
+    datePickReducer,
+    defaultState
+  );
 
   return (
     <DatePickContext.Provider
       value={{
-        selectedHotelDataHandler: dataHandler,
-        onDatePick: datePickerHandler,
-        availableRoomList: availableRoomList,
-        selectedStartDate: selectedStartDate,
-        disableRoomList: disableRoomList,
+        pickedData,
+        dispatchPickup,
       }}
     >
       {props.children}

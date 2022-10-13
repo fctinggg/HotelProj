@@ -6,6 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
 import { MobileDateRangePicker } from "@mui/x-date-pickers-pro/MobileDateRangePicker";
 import { useCallback, useContext, useEffect, useState } from "react";
 import DatePickContext from "../../store/datePickContext";
+import { actionType } from "../../store/actionType";
 
 const DatePicker = () => {
   const [value, setValue] = useState([]);
@@ -32,7 +33,10 @@ const DatePicker = () => {
     const d2 = new Date(endDate);
 
     const dateRange = getDatesInRange(d1, d2);
-    selectedCtx.onDatePick(dateRange);
+    selectedCtx.dispatchPickup({
+      type: actionType.DATEPICKER_FILTER,
+      payload: { dateRange },
+    });
   }, [startDate, endDate]);
 
   // console.log(dateRange[0]);

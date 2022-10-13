@@ -5,14 +5,12 @@ import HotelItem from './HotelItem';
 
 const HotelList = () => {
   const ctx = useContext(HotelContext);
-  const hotels = ctx.updatedHotelsData
-
-  console.log(hotels)
+  const {updatedHotelsList} = ctx.filteredData
 
   return (
   <Fragment>
-    {ctx.updatedHotelsData && <ul className={classes.list}>
-    {hotels.map((hotel) => (
+    {updatedHotelsList && <ul className={classes.list}>
+    {updatedHotelsList.map((hotel) => (
       <HotelItem
         key={hotel._id}
         id={hotel._id}

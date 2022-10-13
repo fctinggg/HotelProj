@@ -30,3 +30,8 @@
   margin: 0;
   padding: 0;
 }
+
+.dummyFont {
+  font-size: small;
+  padding-bottom:9px;
+}
