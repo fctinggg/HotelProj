@@ -1,12 +1,10 @@
-import { Fragment } from "react";
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import classes from "./HotelDetailLayout.module.css";
 
 
 const HotelDetailLayout = (props) => {
   return (
-    <Fragment>
+    <>
       <div className={classes.container}>
         <Grid
           container
@@ -17,7 +15,7 @@ const HotelDetailLayout = (props) => {
           {props.children}
         </Grid>
       </div>
-    </Fragment>
+    </>
   );
 };
 

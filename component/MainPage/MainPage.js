@@ -59,7 +59,6 @@ const MainPage = (props) => {
                   >
                     <Grid
                       item
-                      spacing={2}
                       sx={{ justifyContent: "center", py: 2, pt: 3 }}
                     >
                       <div className={classes.text}>Ready for search!</div>
@@ -157,24 +156,3 @@ const MainPage = (props) => {
 
 export default MainPage;
 
-{
-  /* <div className={classes.container}>
-        <div className={classes.grid}>
-          <div className={classes.text_div}>
-            <div className={classes.text}>Ready for search!</div>
-            <div className={classes.py}>
-              <SearchBar placeholder="Enter a hotel name" data={hotelsData}></SearchBar>
-            </div>
-          </div>
-          <div className={classes.img_div}>
-            <Image
-              src={homepic}
-              alt="HotelImage"
-              width="750px"
-              height="750px"
-              layout="intrinsic"
-            />
-          </div>
-        </div>
-      </div> */
-}

@@ -16,14 +16,6 @@
   height: 5vh;
 }
 
-.cover_text {
-  font-size: 12vmin;
-  color: black;
-  font-family: 'Oswald', sans-serif;
-  margin: 1rem;
-  text-align: center;
-}
-
 .text_container {
   z-index: 1;
   margin: auto;     

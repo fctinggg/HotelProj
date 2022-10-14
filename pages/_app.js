@@ -4,9 +4,7 @@ import Head from "next/head";
 import Layout from "../component/layout/Layout";
 import { HotelContextProvider } from "../store/hotelContext";
 import { DatePickContextProvider } from "../store/datePickContext";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-
+import { CartContextProvider } from "../store/cartContext";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -19,13 +17,15 @@ function MyApp({ Component, pageProps }) {
         <meta name="format-detection" content="telephone=no"></meta>
       </Head>
       <Provider session={pageProps.session}>
-        <HotelContextProvider>
-          <DatePickContextProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </DatePickContextProvider>
-        </HotelContextProvider>
+        <CartContextProvider>
+          <HotelContextProvider>
+            <DatePickContextProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </DatePickContextProvider>
+          </HotelContextProvider>
+        </CartContextProvider>
       </Provider>
     </>
   );

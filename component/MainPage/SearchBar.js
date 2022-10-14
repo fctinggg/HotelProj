@@ -51,7 +51,7 @@ const SearchBar = ({ placeholder, data }) => {
         <div className={classes.dataResult}>
           {filteredData.slice(0, 10).map((value, key) => {
             return (
-              <Link className={classes.dataItem} href={`/Hotel/${value._id}`}>
+              <Link className={classes.dataItem} href={`/Hotel/${value._id}`} key={value._id}>
                 <div className={classes.paragraph}><div>{value.hotelName}</div><div>{value.region}</div></div>
               </Link>
             );

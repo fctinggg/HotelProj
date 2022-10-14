@@ -14,10 +14,10 @@ import CommonButton from "../ui/CommonButton";
 import { useSession, signOut } from 'next-auth/client'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
-import { useState } from "react";
-import CartModal from './CartModal';
-
-
+import { useState, useContext } from "react";
+import CartModal from '../ui/CartModal';
+import cartContext from '../../store/cartContext';
+import Chip from '@mui/material/Chip';
 
 const styledBtn = {
   background: '#D0B8A8',
@@ -34,6 +34,9 @@ const MainNav = () => {
   const [session, loading] = useSession();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [open, setOpen] = useState(false);
+  const cartCtx = useContext(cartContext)
+
+  const {totalQuantity} = cartCtx.cartStatus
 
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
@@ -93,13 +96,15 @@ const MainNav = () => {
                 </Link>
             </Box>
 
-            <Box px={2} pt={1}>
-            <Badge badgeContent={1} color='error'>
-              <ShoppingCartIcon sx={{color:'#958a99',cursor: 'pointer'}} onClick={handleModalOpen}/>
+            <Box px={1} pt={0.3}>
+            <Badge badgeContent={totalQuantity} color='error'>
+            <Chip sx={{borderRadius:100, width: 34, py: 2.5, px: 2.5,cursor: 'pointer'}}
+              icon={<ShoppingCartIcon sx={{color:'#958a99', fontSize:'2.5rem', pl: 1.6}} onClick={handleModalOpen}/>}
+            />
             </Badge>
             </Box>
 
-            {!session && !loading && 
+            {!session && 
             <Box>
               <CommonButton size='medium' sx={styledBtn} variant='contained'>
               <Link href='/SignIn'>

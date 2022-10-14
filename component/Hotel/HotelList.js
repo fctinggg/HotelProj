@@ -6,6 +6,7 @@ import HotelItem from './HotelItem';
 const HotelList = () => {
   const ctx = useContext(HotelContext);
   const {updatedHotelsList} = ctx.filteredData
+  console.log(updatedHotelsList)
 
   return (
   <Fragment>

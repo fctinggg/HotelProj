@@ -9,13 +9,12 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  borderRadius: 2,
   boxShadow: 24,
   p: 4,
 };
 
-
-const CartModal = (props) => {
+const AlertModal = (props) => {
   const passModalClose = () => {
     props.onHandleModalClose()
   }
@@ -23,22 +22,22 @@ const CartModal = (props) => {
   return (
     <div>
       <Modal
-        open={props.open}
+        open={props.selectAlert}
         onClose={passModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{color:'#43302E'}}>
+            Hey
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          <Typography id="modal-modal-description" sx={{ mt: 2, color:'#43302E' }}>
+            you should select your travel days first!
           </Typography>
         </Box>
       </Modal>
     </div>
   );
-};
+}
 
-export default CartModal;
+export default AlertModal;

@@ -1,6 +1,6 @@
 //// Hotel/[id]
 import { useRouter } from "next/router";
-import HotelDetailWrapper from "../../../component/Hotel/HotelDetailLayout";
+import HotelDetailLayout from "../../../component/Hotel/HotelDetailLayout";
 import HotelDetail from "../../../component/Hotel/HotelDetail";
 import { getHotelData,getSingleHotelData } from "../../api/hotelData";
 import DatePickContext from '../../../store/datePickContext'
@@ -13,19 +13,20 @@ const hotelDetailPage = (props) => {
   const selectedCtx = useContext(DatePickContext);
   const singleHotel = Object.values(props)
 
+
   useEffect(() => {
-    selectedCtx.dispatchPickup({type:actionType.DATA_INSERT, payload:{singleHotel}})
+    selectedCtx.dispatchPickup({type:actionType.DATA_INSERT, payload:{singleHotel}}) 
    }, [])
 
-   console.log('----------converted array-------------')
-   console.log(Object.values(props))
+  //  console.log('----------converted array-------------')
+  //  console.log(Object.values(props))
 
   return (
     <>
-      <HotelDetailWrapper>
-        <HotelDetail singleHotelData={props.singleHotelData}>
+      <HotelDetailLayout>
+        <HotelDetail>
         </HotelDetail>
-      </HotelDetailWrapper>
+      </HotelDetailLayout>
     </>
   );
 };
@@ -55,8 +56,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       singleHotelData: {
-        ...selectedHotel,
-        id: selectedHotel._id.toString(),
+        ...selectedHotel
       }
     },
     revalidate: 1,

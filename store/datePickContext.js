@@ -1,4 +1,3 @@
-import { itCH } from "date-fns/locale";
 import { createContext, useReducer, useState } from "react";
 import { actionType } from "./actionType";
 
@@ -6,9 +5,8 @@ const DatePickContext = createContext();
 
 const defaultState = {
   originalSelectedHotelsData: [],
-  updatedSelectedHotelsList: [],
   availableRoomList: [],
-  selectedStartDate: "Wed Oct 05 2022",
+  selectedStartDate: "Wed Oct 05 2022"
 };
 
 const datePickReducer = (state, action) => {
@@ -22,8 +20,7 @@ const datePickReducer = (state, action) => {
       return {
         selectedStartDate: "Wed Oct 05 2022",
         originalSelectedHotelsData: action.payload.singleHotel,
-        updatedSelectedHotelsList: action.payload.singleHotel,
-        availableRoomList: availableRoomList,
+        availableRoomList: availableRoomList
       };
   }
 
@@ -47,30 +44,30 @@ const datePickReducer = (state, action) => {
           })
         );
 
-        const getDateWithQuantity = state.originalSelectedHotelsData.map((hotel) =>
-        hotel.roomTypes.filter((roomType) => {
-          return selectedDateRange.every(
-            (date) => roomType.stock[date] > 0
-          );
-        })
-      );
-
-      const getDateWithNotAvailable = state.originalSelectedHotelsData.map((hotel) =>
-      hotel.roomTypes.filter((roomType) => {
-        return selectedDateRange.find(
-          (date) => roomType.stock[date] <= 0
+        const getDateWithQuantity = state.originalSelectedHotelsData.map(
+          (hotel) =>
+            hotel.roomTypes.filter((roomType) => {
+              return selectedDateRange.every(
+                (date) => roomType.stock[date] > 0
+              );
+            })
         );
-      })
-    );
 
-        console.log(getDateWithNotAvailable);
-        console.log(getDateWithQuantity);
+        const getDateWithNotAvailable = state.originalSelectedHotelsData.map(
+          (hotel) =>
+            hotel.roomTypes.filter((roomType) => {
+              return selectedDateRange.find(
+                (date) => roomType.stock[date] <= 0
+              );
+            })
+        );
 
         return {
           ...state,
-          availableRoomList:getDateWithQuantity,
+          availableRoomList: getDateWithQuantity,
           selectedStartDate: selectedDateRange[0],
-          disableRoomList:getDateWithNotAvailable
+          disableRoomList: getDateWithNotAvailable,
+          selectedDateRange: selectedDateRange,
         };
       }
   }
