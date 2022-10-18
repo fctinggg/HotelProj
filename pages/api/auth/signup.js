@@ -1,8 +1,8 @@
 import { connectToDatabase } from "../../../lib/db";
-import { hashPassword } from '../../../lib/auth';
+import { hashPassword } from "../../../lib/auth";
 
 async function handler(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== "POST") {
     return;
   }
   const data = req.body;
@@ -16,11 +16,9 @@ async function handler(req, res) {
     !password.trim().length > 7 ||
     !name
   ) {
-    res
-      .status(442)
-      .json({
-        message: "Invalid input - password should also at least 7 characters",
-      });
+    res.status(442).json({
+      message: "Invalid input - password should also at least 7 characters",
+    });
     return;
   }
 
@@ -28,23 +26,26 @@ async function handler(req, res) {
 
   const db = client.db();
 
-  const existingUser = await db.collection("users").findOne({email: email});
+  const existingUser = await db.collection("users").findOne({ email: email });
 
   if (existingUser) {
-    res.status(422).json({message: 'User exists already!'});
+    res.status(422).json({ message: "User exists already!" });
     client.close();
     return;
   }
 
-  const hashedPassword = await hashPassword(password)
+  const hashedPassword = await hashPassword(password);
 
   const result = await db.collection("users").insertOne({
     email: email,
     password: hashedPassword,
-    name: name
+    name: name,
+    cart: [],
+    liked: [],
+    saved: [],
   });
 
-  res.status(201).json({message: 'Created user!'});
+  res.status(201).json({ message: "Created user!" });
   client.close();
 }
 

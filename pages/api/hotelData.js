@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../../lib/db';
+import { connectToDatabase } from "../../lib/db";
 import { ObjectId } from "mongodb";
 
 // client side:
@@ -25,10 +25,9 @@ export async function getHotelData(props) {
     // yau bug cant use res.json
     // console.log(JSON.parse(JSON.stringify(hotels)))
 
-    return (JSON.parse(JSON.stringify(hotels)));
-
+    return JSON.parse(JSON.stringify(hotels));
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 
@@ -40,16 +39,17 @@ export async function getSingleHotelData(props) {
 
     const hotelCollection = db.collection("hotels");
 
-    const selectedHotel = await hotelCollection.findOne({_id: ObjectId(props)});
+    const selectedHotel = await hotelCollection.findOne({
+      _id: ObjectId(props),
+    });
 
     client.close();
 
     // yau bug cant use res.json
     // console.log(JSON.parse(JSON.stringify(selectedHotel)))
 
-    return (JSON.parse(JSON.stringify(selectedHotel)));
-
+    return JSON.parse(JSON.stringify(selectedHotel));
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }

@@ -28,20 +28,20 @@ const LoginPage = () => {
 };
 
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession({req: context.req})
+export async function getServerSideProps(context) {
+  const session = await getSession({req: context.req})
 
-//   if(session) {
-//     return {
-//       redirect: {
-//         destination: '/Profile',
-//         permanent: false
-//       }
-//     }
-//   }
-//   return {
-//     props: {session}
-//   }
-// }
+  if(session) {
+    return {
+      redirect: {
+        destination: '/Profile',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {session}
+  }
+}
 
 export default LoginPage;

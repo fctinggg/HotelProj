@@ -7,12 +7,10 @@ import FilterButton from "../ui/FilterButton";
 import FilterCheckbox from "../ui/FilterCheckbox";
 
 const AllHotelPage = () => {
-  
   return (
     <Fragment>
       <div className={classes.container}>
-        <Grid container sx={{justifyContent: "center",
-              alignItems: "center"}}>
+        <Grid container sx={{ justifyContent: "center", alignItems: "center" }}>
           <Grid
             item
             sx={{

@@ -9,21 +9,14 @@ import WavesOutlinedIcon from "@mui/icons-material/WavesOutlined";
 import FlightLandOutlinedIcon from "@mui/icons-material/FlightLandOutlined";
 import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import TurnedInNotOutlinedIcon from "@mui/icons-material/TurnedInNotOutlined";
 import RatingUI from "../ui/Rating";
 import LikeSaveIcon from "../ui/LikeSave";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, CardActions } from "@mui/material";
 import { useRouter } from "next/router";
 
 const HotelItem = (props) => {
   const router = useRouter();
-
-  const airportService =
-    props.popularAmenities.indexOf("airportService") > -1 ? true : false;
-  const swimmingPool =
-    props.popularAmenities.indexOf("swimmingPool") > -1 ? true : false;
-  const parking = props.popularAmenities.indexOf("parking") > -1 ? true : false;
-  const smokingArea =
-    props.popularAmenities.indexOf("smokingArea") > -1 ? true : false;
 
   const handleRouteChange = (post_url) => {
     router.push(post_url, undefined, { shallow: true });
@@ -34,23 +27,63 @@ const HotelItem = (props) => {
     console.log("OK");
   };
 
+  const popularAmenities = props.popularAmenities.map((amenities) => (
+    <Grid
+      container
+      item
+      direction="row"
+      sx={{
+        py: 1,
+        justifyContent: {
+          xs: "center",
+          md: "space-between",
+        },
+        alignItems: { xs: "center" },
+        display: { xs: "flex" },
+      }}
+    >
+      <Grid item>
+        {amenities === "parking" ? <DirectionsCarOutlinedIcon /> : ""}
+        {amenities === "swimmingPool" ? <WavesOutlinedIcon /> : ""}
+        {amenities === "airportService" ? <FlightLandOutlinedIcon /> : ""}
+        {amenities === "smokingArea" ? <SmokingRoomsOutlinedIcon /> : ""}
+      </Grid>
+      <Grid item>
+        <div className={classes.reviewsName}>{amenities}: </div>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          justifyContent: "left",
+          alignItems: "left",
+          display: "flex",
+          pt: 0.1,
+          px: 1,
+        }}
+      >
+        <DoneOutlinedIcon />
+      </Grid>
+    </Grid>
+  ));
+
   return (
     <>
       <li>
         <Box py={3}>
-          <CardActionArea onClick={clickHandler}>
-            <Card
-              sx={{
-                boxShadow: 3,
-                borderRadius: "0",
-                pt: 3,
-                pb: 2,
-                justifyContent: "center",
-                alignItems: "center",
-                minWidth: { md: 800, xs: 300, sm: 400, lg: 1000 },
-                maxWidth: { md: 800, xs: 300, sm: 400, lg: 1000 },
-              }}
-            >
+          <Card
+            sx={{
+              fontFamily: "Segoe UI",
+              boxShadow: 3,
+              borderRadius: "0",
+              pt: 3,
+              pb: 2,
+              justifyContent: "center",
+              alignItems: "center",
+              minWidth: { md: 800, xs: 300, sm: 400, lg: 900, xl: 1000 },
+              maxWidth: { md: 800, xs: 300, sm: 400, lg: 900, xl: 1000 },
+            }}
+          >
+            <CardActionArea onClick={clickHandler}>
               <Grid container spacing={1} px={2} py={1}>
                 <Grid
                   item
@@ -63,19 +96,17 @@ const HotelItem = (props) => {
                   }}
                 >
                   <Box pt={0}>
-                   
-                      <Image
-                        src={testImg}
-                        alt="TestImage"
-                        width="280px"
-                        height="260px"
-                        layout="intrinsic"
-                      />
-                   
+                    <Image
+                      src={testImg}
+                      alt="TestImage"
+                      width="280px"
+                      height="260px"
+                      layout="intrinsic"
+                    />
                   </Box>
                 </Grid>
                 <Grid item sx={{ mr: 0 }} md={5} xs={12}>
-                  <Box xs="2px" sx={{ pl: 2 ,pt: 1}}>
+                  <Box xs="2px" sx={{ pl: 2, pt: 1 }}>
                     <div>
                       <div className={classes.nameFont}>{props.hotelName}</div>
                       <div className={classes.infoFont}>
@@ -97,203 +128,82 @@ const HotelItem = (props) => {
                     </div>
                   </Box>
                 </Grid>
-                <Grid
-                  item
-                  sx={{
-                    justifyContent: { xs: "center", md: "flex-end"},
-                    alignItems: { xs: "center" },
-                    display: { xs: "flex" },
-                    mr: { xs: 0 },
-                    pr: {lg: 2}
-                  }}
-                  md={4}
-                  xs={12}
-                >
-                  <Box
+                <Grid item md={4} xs={12}>
+                  <Grid
+                    item
+                    container
+                    direction={{ xs: "row", md: "column" }}
                     sx={{
-                      px: 2,
-                      justifyContent: { xs: "center" },
-                      alignItems: { xs: "center" },
-                      display: { xs: "flex", md: "inline" },
+                      justifyContent: { xs: "center", md: "flex-end" },
+                      direction: "column",
+                      alignItems: { xs: "center", md: "flex-end" },
+                      display: { xs: "flex" },
+                      mr: { xs: 0 },
+                      pr: { lg: 2 },
                     }}
                   >
-                    {parking && (
-                      <Grid
-                        container
-                        item
-                        direction="row"
-                        sx={{
-                          py: 1,
-                          justifyContent: { xs: "center", md: "flex-start" },
-                          alignItems: { xs: "center" },
-                          display: { xs: "flex" },
-                        }}
-                      >
-                        <Grid item>
-                          <DirectionsCarOutlinedIcon />
-                        </Grid>
-                        <Grid item sx={{ pt: 0.5 }}>
-                          <div className={classes.reviewsName}>
-                            Free Parking:{" "}
-                          </div>
-                        </Grid>
-                        <Grid
-                          item
-                          sx={{
-                            justifyContent: "left",
-                            alignItems: "left",
-                            display: "flex",
-                            pt: 0.1,
-                            px: 1,
-                          }}
-                        >
-                          <DoneOutlinedIcon />
-                        </Grid>
-                      </Grid>
-                    )}
-
-                    {smokingArea && (
-                      <Grid
-                        container
-                        item
-                        sx={{
-                          py: 1,
-                          justifyContent: { xs: "center", md: "flex-start" },
-                          alignItems: { xs: "center" },
-                          display: { xs: "flex" },
-                        }}
-                      >
-                        <Grid
-                          item
-                          sx={{
-                            justifyContent: "left",
-                            alignItems: "left",
-                            display: "flex",
-                          }}
-                        >
-                          <SmokingRoomsOutlinedIcon />
-                        </Grid>
-                        <Grid item sx={{ pt: 0.5 }}>
-                          <div className={classes.reviewsName}>
-                            Smoking Area:{" "}
-                          </div>
-                        </Grid>
-                        <Grid
-                          item
-                          sx={{
-                            justifyContent: "left",
-                            alignItems: "left",
-                            display: "flex",
-                            pt: 0.1,
-                            px: 1,
-                          }}
-                        >
-                          <DoneOutlinedIcon />
-                        </Grid>
-                      </Grid>
-                    )}
-
-                    {swimmingPool && (
-                      <Grid
-                        container
-                        item
-                        sx={{
-                          py: 1,
-                          justifyContent: { xs: "center", md: "flex-start" },
-                          alignItems: { xs: "center" },
-                          display: { xs: "flex" },
-                        }}
-                      >
-                        <Grid
-                          item
-                          sx={{
-                            justifyContent: "left",
-                            alignItems: "left",
-                            display: "flex",
-                          }}
-                        >
-                          <WavesOutlinedIcon />
-                        </Grid>
-                        <Grid item sx={{ pt: 0.5 }}>
-                          <div className={classes.reviewsName}>
-                            Swimming Pool:{" "}
-                          </div>
-                        </Grid>
-                        <Grid
-                          item
-                          sx={{
-                            justifyContent: "left",
-                            alignItems: "left",
-                            display: "flex",
-                            pt: 0.1,
-                            px: 1,
-                          }}
-                        >
-                          <DoneOutlinedIcon />
-                        </Grid>
-                      </Grid>
-                    )}
-
-                    {airportService && (
-                      <Grid
-                        container
-                        item
-                        sx={{
-                          py: 1,
-                          justifyContent: { xs: "center", md: "flex-start" },
-                          alignItems: { xs: "center" },
-                          display: { xs: "flex" },
-                        }}
-                      >
-                        <Grid
-                          item
-                          sx={{
-                            justifyContent: "left",
-                            alignItems: "left",
-                            display: "flex",
-                          }}
-                        >
-                          <FlightLandOutlinedIcon />
-                        </Grid>
-                        <Grid item sx={{ pt: 0.5 }}>
-                          <div className={classes.reviewsName}>
-                            Airport Pickup:{" "}
-                          </div>
-                        </Grid>
-                        <Grid
-                          item
-                          sx={{
-                            justifyContent: "left",
-                            alignItems: "left",
-                            display: "flex",
-                            pt: 0.1,
-                            px: 1,
-                          }}
-                        >
-                          <DoneOutlinedIcon />
-                        </Grid>
-                      </Grid>
-                    )}
                     <Grid
-                      container
                       item
-                      xs={2}
-                      md={12}
                       sx={{
-                        px: 0,
-                        py: 2,
-                        justifyContent: "right",
-                        alignItems: "right",
-                        display: "flex",
+                        justifyContent: { xs: "center", md: "flex-end" },
+                        alignItems: { xs: "center", md: "flex-end" },
+                        display: { xs: "flex", md: "inline" },
                       }}
+                      xs={12}
+                      md={12}
                     >
-                      <LikeSaveIcon />
+                      {popularAmenities}
                     </Grid>
-                  </Box>
+                    <Grid item xs={12}>
+                      <Grid
+                        container
+                        direction="column"
+                        xs={12}
+                        md={12}
+                        sx={{
+                          px: 1,
+                          py: 2,
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                      >
+                        <Grid item sx={{ fontSize: { md: 15, xs: 6 } }}>
+                          MEGA SALE
+                        </Grid>
+                        <Grid item sx={{ fontSize: { md: 25, xs: 14 } }}>
+                          $500
+                        </Grid>
+                        <Grid item sx={{ fontSize: 15 }}>
+                          /per night
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Card>
-          </CardActionArea>
+            </CardActionArea>
+            <Grid
+              container
+              sx={{
+                px: 2,
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Grid item xs={8} sm={9}>
+                <Box sx={{ px: 2 }}>Ads</Box>
+              </Grid>
+              <Grid
+                container
+                item
+                xs={4}
+                sm={3}
+                sx={{ justifyContent: "flex-end" }}
+              >
+                <LikeSaveIcon hotel={props}/>
+              </Grid>
+            </Grid>
+          </Card>
         </Box>
       </li>
     </>

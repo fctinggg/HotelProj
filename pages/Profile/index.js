@@ -1,9 +1,12 @@
 // /profile
 import { getSession } from 'next-auth/client';
+import UserProfileLayout from '../../component/UserProfile/UserProfileLayout';
 import UserProfile from '../../component/UserProfile/UserProfile';
 
 const ProfilePage = () => {
-  return <UserProfile></UserProfile>
+  return <UserProfileLayout>
+    <UserProfile/>
+  </UserProfileLayout>
 }
 
 export async function getServerSideProps(context) {

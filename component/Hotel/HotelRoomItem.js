@@ -25,14 +25,14 @@ import DatePickContext from "../../store/datePickContext";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 import CartContext from "../../store/cartContext";
 import { actionType } from "../../store/actionType";
-import AlertModal from '../ui/AlertModal';
-import CustomizeSnackbar from '../ui/Snackbar';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AlertModal from "../ui/AlertModal";
+import CustomizeSnackbar from "../ui/Snackbar";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const styledbtn = {
   borderRadius: "2",
   color: "white",
-  width: "70%",
+  width: "100%",
   padding: "3",
   backgroundColor: "#E78A61",
   "&:hover": {
@@ -66,70 +66,77 @@ const theme = createTheme({
 const HotelRoomItem = (props) => {
   const [selectAlert, setSelectAlert] = useState(false);
   const [open, setOpen] = useState(false);
-  const selectedCtx = useContext(DatePickContext);
   const cartCtx = useContext(CartContext);
+  const selectedCtx = useContext(DatePickContext);
   const { selectedStartDate, selectedDateRange } = selectedCtx.pickedData;
 
-  const allowSmoke = props.smoking ? true : false;
+  const specialMsg = props.specialMsg.length > 0;
 
-  const specialMsg = props.specialMsg.length > 0 ? true : false;
-
+  let soldOut = false;
   const soldOutStyle = soldOut
     ? { borderColor: "#D3D3D3", backgroundColor: "#D3D3D3", color: "white" }
     : { backgroundColor: "#C48793", color: "white" };
 
-  const soldOut = false;
-  const almostSoldOut = false;
-  const sufficient = false;
-  const many = false;
+  const stockStatus = [];
 
   const stock = (startDateStock, dateStock) => {
     if (dateStock == 0) {
+      stockStatus.push("Sold out");
       return (soldOut = true);
     }
     if (startDateStock > 0 && startDateStock < 10) {
-      return (almostSoldOut = true);
+      stockStatus.push("Less than 10");
     }
     if (startDateStock > 10 && startDateStock < 21) {
-      return (sufficient = true);
+      stockStatus.push("Less than 20");
     }
     if (startDateStock > 21) {
-      return (many = true);
+      stockStatus.push("20+");
     }
   };
 
   stock(props.stock[selectedStartDate], props.stock);
+
+  const showStock = stockStatus.map((status) => (
+    <>
+      <Grid
+        item
+        pl={0.5}
+        pr={0.5}
+        sx={{ fontSize: { xs: "small", md: "medium" } }}
+      >
+        Room remain:
+      </Grid>
+      <Grid sx={{ fontSize: { xs: "small", md: "medium" } }}>{status}</Grid>
+    </>
+  ));
 
   const cartDataPassHandler = () => {
     if (selectedDateRange === undefined) {
       return setSelectAlert(true);
     } else {
       setOpen(true),
-      cartCtx.dispatchCart({
-        type: actionType.ADD_CART,
-        payload: {
-          selectedItem: {
-            hotelName: props.hotelName,
-            roomType: props.roomName,
-            beds: props.beds,
-            smoking: props.smoking,
-            specialMsg: props.specialMsg,
-            key: props.id,
-            id: props.id,
-            selectedDateRange: selectedDateRange,
+        cartCtx.dispatchCart({
+          type: actionType.ADD_CART,
+          payload: {
+            selectedItem: {
+              hotelName: props.hotelName,
+              roomType: props.roomName,
+              beds: props.beds,
+              smoking: props.smoking,
+              specialMsg: props.specialMsg,
+              key: props.id,
+              id: props.id,
+              selectedDateRange: selectedDateRange,
+            },
           },
-        },
-      });
+        });
     }
   };
 
-  const handleClose = () => 
-    setSelectAlert(false)
+  const handleClose = () => setSelectAlert(false);
 
-  const handleSnackbarClose = () => 
-    setOpen(false)
-  
-
+  const handleSnackbarClose = () => setOpen(false);
 
   return (
     <li>
@@ -137,19 +144,28 @@ const HotelRoomItem = (props) => {
         <Box py={3}>
           <Card
             sx={{
-              boxShadow: 3,
-              borderRadius: "0",
-              pt: 3,
+              boxShadow: 0,
+              borderRadius: 0,
+              borderBottom: "1px dotted grey",
+              pt: 2,
               pb: 2,
               justifyContent: "center",
               alignItems: "center",
               minWidth: { md: 650, xs: 300, sm: 300, lg: 970 },
-              maxWidth: { md: 950, xs: 300, sm: 680, lg: 970 },
+              maxWidth: { md: 950, xs: 500, sm: 680, lg: 970 },
             }}
           >
             {/* alert modal */}
-            <AlertModal selectAlert={selectAlert} onHandleModalClose={handleClose}/>
-            <CustomizeSnackbar icon={<AddShoppingCartIcon sx={{ color: "white" }} />} message='Added To Cart' SnackbarOpen={open} onHandleSnackbarClose={handleSnackbarClose}/>
+            <AlertModal
+              selectAlert={selectAlert}
+              onHandleModalClose={handleClose}
+            />
+            <CustomizeSnackbar
+              icon={<AddShoppingCartIcon sx={{ color: "white" }} />}
+              message="Added To Cart"
+              SnackbarOpen={open}
+              onHandleSnackbarClose={handleSnackbarClose}
+            />
             <Grid container>
               <Grid container px={3} direction="row">
                 <Grid
@@ -172,13 +188,19 @@ const HotelRoomItem = (props) => {
                 <Grid
                   item
                   px={2}
-                  xs={5}
+                  xs={12}
                   sm={6.5}
                   xm={5}
                   lg={5.5}
                   sx={{ px: { xs: 2, lm: 0 } }}
                 >
-                  <Grid container sx={{ py: { sm: 3, picBreakPoint: 0 } }}>
+                  <Grid
+                    container
+                    direction="column"
+                    sx={{
+                      py: { sm: 3, picBreakPoint: 0 },
+                    }}
+                  >
                     <Grid item xs={12} py={1}>
                       <Box className={classes.title}>{props.roomName}</Box>
                     </Grid>
@@ -195,7 +217,7 @@ const HotelRoomItem = (props) => {
                       </Grid>
                     </Grid>
                     <Grid container item>
-                      {!allowSmoke ? (
+                      {!props.smoking ? (
                         <>
                           <Grid item sx={{ display: "inline" }}>
                             <SmokeFreeOutlinedIcon fontSize="small" />
@@ -274,128 +296,132 @@ const HotelRoomItem = (props) => {
                     <Grid container item xs={12} py={1} pt={1}>
                       <Card variant="outlined" sx={soldOutStyle}>
                         <Grid container py={1} px={1} pr={1.2} pb={1.2}>
-                          {almostSoldOut && <AlarmIcon fontSize="small" />}
-                          <Grid
-                            item
-                            pl={0.5}
-                            pr={0.5}
-                            sx={{ fontSize: { xs: "small", md: "medium" } }}
-                          >
-                            Room remain:
-                          </Grid>
-                          {soldOut && (
-                            <Grid
-                              sx={{ fontSize: { xs: "small", md: "medium" } }}
-                            >
-                              {" "}
-                              Sold Out
-                            </Grid>
+                          {stockStatus.indexOf("Less than 10") > -1 ? (
+                            <AlarmIcon fontSize="small" />
+                          ) : (
+                            ""
                           )}
-                          {almostSoldOut && (
-                            <Grid
-                              sx={{ fontSize: { xs: "small", md: "medium" } }}
-                            >
-                              Less than 10
-                            </Grid>
-                          )}
-                          {sufficient && (
-                            <Grid
-                              sx={{ fontSize: { xs: "small", md: "medium" } }}
-                            >
-                              Less than 20
-                            </Grid>
-                          )}
-                          {many && (
-                            <Grid
-                              sx={{ fontSize: { xs: "small", md: "medium" } }}
-                            >
-                              20+
-                            </Grid>
-                          )}
+                          {showStock}
                         </Grid>
                       </Card>
                     </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs={3} sm={12} xm={3} lg={3}>
-                  <Grid
-                    container
-                    className={classes.amenitiesBox}
-                    direction="column"
-                  >
-                    <Box px={2} py={1}>
-                      <Grid container>
-                        <Grid item pb={1} xs={12} display="block">
-                          Room Amenities:
+                    <Grid item xs={12}>
+                      <Grid
+                        container
+                        direction="column"
+                        xs={12}
+                        md={12}
+                        sx={{
+                          px: 1,
+                          py: 1,
+                          justifyContent: "flex-end",
+                          alignItems: "flex-end",
+                        }}
+                      >
+                        <Grid item sx={{ fontSize: { md: 15, xs: 6 } }}>
+                          MEGA SALE
                         </Grid>
-                        <Grid px={0.5}>
-                          {props.roomAmenities.LCDTv && <TvOutlinedIcon />}
+                        <Grid item sx={{ fontSize: { md: 25, xs: 14 } }}>
+                          $500
                         </Grid>
-                        <Grid px={0.5}>
-                          {" "}
-                          {props.roomAmenities.Wi_Fi && <WifiOutlinedIcon />}
-                        </Grid>
-                        <Grid px={0.5}>
-                          {" "}
-                          {props.roomAmenities.airCondition && (
-                            <AcUnitOutlinedIcon />
-                          )}
-                        </Grid>
-                        <Grid item py={1} xs={12} display="block">
-                          Basic Toiletries:
-                        </Grid>
-                        <Grid>
-                          {" "}
-                          {props.roomAmenities.basicToiletries && (
-                            <>
-                              <Box display="inline" px={0.5}>
-                                <AirOutlinedIcon />
-                              </Box>
-                              <Box display="inline" px={0.5}>
-                                <DryCleaningOutlinedIcon />
-                              </Box>
-                              <Box display="inline" px={0.5}>
-                                <SoapOutlinedIcon />
-                              </Box>
-
-                              {props.roomAmenities.bathtub && (
-                                <Box display="inline" px={0.5}>
-                                  <BathtubOutlinedIcon />
-                                </Box>
-                              )}
-
-                              {props.roomAmenities.shower && (
-                                <Box display="inline" px={0.5}>
-                                  <ShowerOutlinedIcon />
-                                </Box>
-                              )}
-                            </>
-                          )}
+                        <Grid item sx={{ fontSize: 15 }}>
+                          /per night
                         </Grid>
                       </Grid>
-                    </Box>
-                    <Grid item>
-                      <Box py={3}></Box>
                     </Grid>
                   </Grid>
+                </Grid>
+
+                <Grid
+                  item
+                  xs={3}
+                  sm={12}
+                  xm={3}
+                  lg={3}
+                  container
+                  direction="column"
+                  justifyContent="space-between"
+                >
+                  <Box px={2} py={1} className={classes.amenitiesBox}>
+                    <Grid container>
+                      <Grid item pb={1} xs={12} display="block">
+                        Room Amenities:
+                      </Grid>
+                      <Grid px={0.5}>
+                        {props.roomAmenities.LCDTv && <TvOutlinedIcon />}
+                      </Grid>
+                      <Grid px={0.5}>
+                        {" "}
+                        {props.roomAmenities.Wi_Fi && <WifiOutlinedIcon />}
+                      </Grid>
+                      <Grid px={0.5}>
+                        {" "}
+                        {props.roomAmenities.airCondition && (
+                          <AcUnitOutlinedIcon />
+                        )}
+                      </Grid>
+                      <Grid item py={1} xs={12} display="block">
+                        Basic Toiletries:
+                      </Grid>
+                      <Grid>
+                        {" "}
+                        {props.roomAmenities.basicToiletries && (
+                          <>
+                            <Box display="inline" px={0.5}>
+                              <AirOutlinedIcon />
+                            </Box>
+                            <Box display="inline" px={0.5}>
+                              <DryCleaningOutlinedIcon />
+                            </Box>
+                            <Box display="inline" px={0.5}>
+                              <SoapOutlinedIcon />
+                            </Box>
+
+                            {props.roomAmenities.bathtub && (
+                              <Box display="inline" px={0.5}>
+                                <BathtubOutlinedIcon />
+                              </Box>
+                            )}
+
+                            {props.roomAmenities.shower && (
+                              <Box display="inline" px={0.5}>
+                                <ShowerOutlinedIcon />
+                              </Box>
+                            )}
+                          </>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <Grid item>
+                    <Box py={1}></Box>
+                  </Grid>
+
                   <Grid
-                    item
-                    xs={12}
-                    py={1}
-                    pt={3}
-                    px={1}
-                    display="flex"
-                    justifyContent="right"
+                    container
+                    direction="column"
+                    sx={{
+                      display: "flex",
+                      alignItems: "flex-end",
+                      pb: 1,
+                    }}
                   >
-                    {soldOut ? (
-                      <Button sx={styledbtn} disabled={true}>
-                        BOOK NOW!
-                      </Button>
-                    ) : (
-                      <Button sx={styledbtn} onClick={cartDataPassHandler}>
-                        BOOK NOW!
-                      </Button>
-                    )}
+                    <Grid sx={{ width: "70%", pt: 2 }}>
+                      {soldOut ? (
+                        <Button sx={styledbtn} disabled>
+                          BOOK NOW!
+                        </Button>
+                      ) : (
+                        <Button
+                          sx={styledbtn}
+                          onClick={() => {
+                            cartDataPassHandler();
+                          }}
+                        >
+                          BOOK NOW!
+                        </Button>
+                      )}
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>

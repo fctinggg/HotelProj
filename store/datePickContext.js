@@ -6,21 +6,20 @@ const DatePickContext = createContext();
 const defaultState = {
   originalSelectedHotelsData: [],
   availableRoomList: [],
-  selectedStartDate: "Wed Oct 05 2022"
+  selectedStartDate: (new Date(2022, 9, 5)).toDateString(), //佢要係string先render到啲野 遲啲諗
 };
 
 const datePickReducer = (state, action) => {
   switch (action.type) {
     case actionType.DATA_INSERT:
       const roomList = action.payload.singleHotel;
-      const availableRoomList = roomList.map((hotel) =>
-        hotel.roomTypes.map((roomType) => roomType)
-      );
+      console.log(roomList);
+      const availableRoomList = roomList.map((hotel) => hotel.roomTypes);
 
       return {
-        selectedStartDate: "Wed Oct 05 2022",
+        selectedStartDate: (new Date(2022, 9, 5)).toDateString(),
         originalSelectedHotelsData: action.payload.singleHotel,
-        availableRoomList: availableRoomList
+        availableRoomList: availableRoomList,
       };
   }
 
@@ -28,21 +27,13 @@ const datePickReducer = (state, action) => {
     case actionType.DATEPICKER_FILTER:
       if (action.payload.dateRange) {
         //dedault select
-        let selectedDateRange = ["Wed Oct 05 2022", "Thu Oct 06 2022"];
+        let selectedDateRange = [new Date(2022, 9, 5), new Date(2022, 9, 6)];
 
         if (action.payload.dateRange.length > 1) {
           selectedDateRange = action.payload.dateRange.map((date) => {
             return date.toDateString();
           });
         }
-
-        const getSelectedDate = state.originalSelectedHotelsData.map((hotel) =>
-          hotel.roomTypes.filter((roomType) => {
-            return selectedDateRange.every(
-              (date) => Object.keys(roomType.stock).indexOf(date) > -1
-            );
-          })
-        );
 
         const getDateWithQuantity = state.originalSelectedHotelsData.map(
           (hotel) =>

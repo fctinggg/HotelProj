@@ -8,6 +8,19 @@ import { useContext, useEffect, useState } from "react";
 import DatePickContext from "../../store/datePickContext";
 import { actionType } from "../../store/actionType";
 
+const getDatesInRange = (startDate, endDate) => {
+  const date = new Date(startDate.getTime());
+
+  const dates = [];
+
+  while (date <= endDate) {
+    dates.push(new Date(date));
+    date.setDate(date.getDate() + 1);
+  }
+
+  return dates;
+};
+
 const DatePicker = () => {
   const [value, setValue] = useState([]);
   const selectedCtx = useContext(DatePickContext);
@@ -16,19 +29,6 @@ const DatePicker = () => {
   const endDate = value[1];
 
   useEffect(() => {
-    const getDatesInRange = (startDate, endDate) => {
-      const date = new Date(startDate.getTime());
-
-      const dates = [];
-
-      while (date <= endDate) {
-        dates.push(new Date(date));
-        date.setDate(date.getDate() + 1);
-      }
-
-      return dates;
-    };
-
     const d1 = new Date(startDate);
     const d2 = new Date(endDate);
 
@@ -38,9 +38,6 @@ const DatePicker = () => {
       payload: { dateRange },
     });
   }, [startDate, endDate]);
-
-  // console.log(dateRange[0]);
-  // console.log(new Date("Mon Oct 03 2022 00:00:00"));
 
   return (
     <Stack spacing={3}>

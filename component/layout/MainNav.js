@@ -15,7 +15,7 @@ import { useSession, signOut } from 'next-auth/client'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import { useState, useContext } from "react";
-import CartModal from '../ui/CartModal';
+import CartModal from '../Cart/CartModal';
 import cartContext from '../../store/cartContext';
 import Chip from '@mui/material/Chip';
 
@@ -52,7 +52,6 @@ const MainNav = () => {
   const logoutHandler = () => {
     signOut();
   }
-
 
   return (
     <>
@@ -114,7 +113,7 @@ const MainNav = () => {
             </Box>}
 
             {session && <Box color="black" sx={{px: 2}}>
-              Hello, {session.user.name}
+              Hello, {session.user.name.name}
             </Box>}
 
             {session && <Box sx={{ flexGrow: 0 }}>

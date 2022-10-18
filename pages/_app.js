@@ -5,6 +5,7 @@ import Layout from "../component/layout/Layout";
 import { HotelContextProvider } from "../store/hotelContext";
 import { DatePickContextProvider } from "../store/datePickContext";
 import { CartContextProvider } from "../store/cartContext";
+import { FavouriteContextProvider } from "../store/favouriteContext";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -18,13 +19,15 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Provider session={pageProps.session}>
         <CartContextProvider>
-          <HotelContextProvider>
-            <DatePickContextProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </DatePickContextProvider>
-          </HotelContextProvider>
+          <FavouriteContextProvider>
+            <HotelContextProvider>
+              <DatePickContextProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </DatePickContextProvider>
+            </HotelContextProvider>
+          </FavouriteContextProvider>
         </CartContextProvider>
       </Provider>
     </>

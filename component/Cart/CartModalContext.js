@@ -7,7 +7,7 @@ import classes from "./CartModal.module.css";
 import { useSession } from "next-auth/client";
 import Box from "@mui/material/Box";
 import Link from "next/link";
-import CustomizeIcon from "./CustomizeIcon";
+import CustomizeIcon from "../ui/CustomizeIcon";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
 import SegmentOutlinedIcon from "@mui/icons-material/SegmentOutlined";
@@ -15,7 +15,7 @@ import FaceOutlinedIcon from "@mui/icons-material/FaceOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import FollowTheSignsOutlinedIcon from "@mui/icons-material/FollowTheSignsOutlined";
 import HolidayVillageOutlinedIcon from "@mui/icons-material/HolidayVillageOutlined";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 
 const styledBtn = {
   color: "#D0B8A8",
@@ -35,10 +35,9 @@ const CartModalContext = (props) => {
   const { cartList } = cartCtx.cartStatus;
 
   const modalClose = () => {
-    props.passModalClose()
-  }
+    props.passModalClose();
+  };
 
-  console.log(cartList);
   return (
     <>
       {props.activeStep === 0 && cartList.length !== 0 && (
@@ -122,7 +121,12 @@ const CartModalContext = (props) => {
                 }
               />
               <Grid>
-                <Button size="small" sx={styledBtn} variant="outlined" onClick={modalClose}>
+                <Button
+                  size="small"
+                  sx={styledBtn}
+                  variant="outlined"
+                  onClick={modalClose}
+                >
                   <Link href="/SignIn">sign in/sign up!</Link>
                 </Button>
               </Grid>
@@ -157,57 +161,47 @@ const CartModalContext = (props) => {
           )} */}
         </Box>
       )}
-      {props.activeStep === 2 && <Box sx={{ px: 2 }}>
-      <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '20ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      
-        <Grid Container sx={{display:'flex'}} direction='row'>
-        <Grid item>
-        <TextField
-          required
-          id="outlined-required"
-          label="Last Name"
-        />
-        </Grid>
-        <Grid item>
-        <TextField
-          required
-          id="outlined-required"
-          label="First Name"
-        />
-        </Grid>
-        </Grid>
-        <Grid Container sx={{display:'flex'}} direction='row'>
-        <Grid item>
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-        />
-        </Grid>
-        <Grid item>
-        <TextField
-          id="outlined-number"
-          label="Phone Number"
-          type="string"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        </Grid>
-        </Grid>
-       
-
-    </Box>
-      
-      </Box>}
+      {props.activeStep === 2 && (
+        <Box sx={{ px: 2 }}>
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "20ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <Grid Container sx={{ display: "flex" }} direction="row">
+              <Grid item>
+                <TextField required id="outlined-required" label="Last Name" />
+              </Grid>
+              <Grid item>
+                <TextField required id="outlined-required" label="First Name" />
+              </Grid>
+            </Grid>
+            <Grid Container sx={{ display: "flex" }} direction="row">
+              <Grid item>
+                <TextField
+                  id="outlined-password-input"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="outlined-number"
+                  label="Phone Number"
+                  type="string"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      )}
     </>
   );
 };

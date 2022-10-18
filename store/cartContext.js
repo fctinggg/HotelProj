@@ -1,23 +1,43 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import { actionType } from "./actionType";
 
 const CartContext = createContext();
 
 const defaultState = {
   cartList: [],
-  totalQuantity: 0
+  totalQuantity: 0,
+};
+
+const calculateQuantity = (cartList) => {
+  const initialValue = 0;
+  const sumOfTotalQuantity = cartList
+    .map((item) => item.quantity)
+    .reduce(
+      (previousValue, currentValue) => previousValue + currentValue,
+      initialValue
+    );
+  return sumOfTotalQuantity;
 };
 
 const cartReducer = (state, action) => {
+  switch (action.type) {
+    case actionType.DATA_INSERT:
+      const updatedCartList = action.payload.userCart;
+
+      const sumOfTotalQuantity = calculateQuantity(updatedCartList);
+      return {
+        cartList: updatedCartList,
+        totalQuantity: sumOfTotalQuantity,
+      };
+  }
+
   switch (action.type) {
     case actionType.ADD_CART:
       const selectedItem = action.payload.selectedItem;
       let updatedCartList = [];
       if (
         state.cartList
-          .map(
-            (cartItem) => cartItem.id.indexOf(selectedItem.id) < 0
-          )
+          .map((cartItem) => cartItem.id.indexOf(selectedItem.id) < 0)
           .every((cur) => cur === true)
       ) {
         const selectedItemWithQuantity = { ...selectedItem, quantity: 1 };
@@ -38,25 +58,22 @@ const cartReducer = (state, action) => {
         );
       }
 
-      const initialValue = 0;
-      const sumOfTotalQuantity = updatedCartList.map((item) => item.quantity).reduce(
-        (previousValue, currentValue) => previousValue + currentValue,
-        initialValue
-      );
+      const sumOfTotalQuantity = calculateQuantity(updatedCartList);
 
       return {
         cartList: updatedCartList,
-        totalQuantity: sumOfTotalQuantity
+        totalQuantity: sumOfTotalQuantity,
       };
   }
-  
+
   switch (action.type) {
     case actionType.REMOVE_CART:
-      console.log(action.payload.itemId)
+      console.log(action.payload.itemId);
 
       const existedItem = state.cartList.filter(
-        (item) => item.id.indexOf(action.payload.itemId) > -1)
-      
+        (item) => item.id.indexOf(action.payload.itemId) > -1
+      );
+
       let updatedCartList = [];
       if (existedItem[0].quantity > 1) {
         const updatedItem = {
@@ -69,28 +86,24 @@ const cartReducer = (state, action) => {
             : cartItem
         );
       }
-     
+
       if (existedItem[0].quantity === 1) {
         updatedCartList = state.cartList.filter(
-          (item) => item.id.indexOf(action.payload.itemId) !== 0)
+          (item) => item.id.indexOf(action.payload.itemId) !== 0
+        );
       }
 
-      const initialValue = 0;
-      const sumOfTotalQuantity = updatedCartList.map((item) => item.quantity).reduce(
-        (previousValue, currentValue) => previousValue + currentValue,
-        initialValue
-      );
+      const sumOfTotalQuantity = calculateQuantity(updatedCartList);
 
       return {
         cartList: updatedCartList,
-        totalQuantity: sumOfTotalQuantity
+        totalQuantity: sumOfTotalQuantity,
       };
   }
 };
 
 export const CartContextProvider = (props) => {
   const [cartStatus, dispatchCart] = useReducer(cartReducer, defaultState);
-
 
   return (
     <CartContext.Provider value={{ cartStatus, dispatchCart }}>
