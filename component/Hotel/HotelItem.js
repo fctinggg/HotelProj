@@ -18,12 +18,12 @@ const HotelItem = (props) => {
   const router = useRouter();
 
   const airportService =
-    props.popularAmenities.indexOf("airportService") > -1 ? true : false;
+    props.popularAmenities.indexOf("airportService") > -1 ? true : false; // TODO: remove ? true : false, the condition itself gives u the boolean
   const swimmingPool =
-    props.popularAmenities.indexOf("swimmingPool") > -1 ? true : false;
-  const parking = props.popularAmenities.indexOf("parking") > -1 ? true : false;
+    props.popularAmenities.indexOf("swimmingPool") > -1 ? true : false; // TODO
+  const parking = props.popularAmenities.indexOf("parking") > -1 ? true : false; // TODO
   const smokingArea =
-    props.popularAmenities.indexOf("smokingArea") > -1 ? true : false;
+    props.popularAmenities.indexOf("smokingArea") > -1 ? true : false; // TODO
 
   const handleRouteChange = (post_url) => {
     router.push(post_url, undefined, { shallow: true });
@@ -63,19 +63,17 @@ const HotelItem = (props) => {
                   }}
                 >
                   <Box pt={0}>
-                   
-                      <Image
-                        src={testImg}
-                        alt="TestImage"
-                        width="280px"
-                        height="260px"
-                        layout="intrinsic"
-                      />
-                   
+                    <Image
+                      src={testImg}
+                      alt="TestImage"
+                      width="280px"
+                      height="260px"
+                      layout="intrinsic"
+                    />
                   </Box>
                 </Grid>
                 <Grid item sx={{ mr: 0 }} md={5} xs={12}>
-                  <Box xs="2px" sx={{ pl: 2 ,pt: 1}}>
+                  <Box xs="2px" sx={{ pl: 2, pt: 1 }}>
                     <div>
                       <div className={classes.nameFont}>{props.hotelName}</div>
                       <div className={classes.infoFont}>
@@ -100,11 +98,11 @@ const HotelItem = (props) => {
                 <Grid
                   item
                   sx={{
-                    justifyContent: { xs: "center", md: "flex-end"},
+                    justifyContent: { xs: "center", md: "flex-end" },
                     alignItems: { xs: "center" },
                     display: { xs: "flex" },
                     mr: { xs: 0 },
-                    pr: {lg: 2}
+                    pr: { lg: 2 },
                   }}
                   md={4}
                   xs={12}

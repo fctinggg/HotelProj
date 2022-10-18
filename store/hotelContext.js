@@ -4,6 +4,7 @@ import { actionType } from "./actionType";
 const HotelContext = createContext();
 
 const filterReducer = (state, action) => {
+  // TODO: inappropriate use and syntax of "switch", refer to "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch"
   switch (action.type) {
     case actionType.DATA_INSERT:
       return {
@@ -64,7 +65,7 @@ export const HotelContextProvider = (props) => {
     <HotelContext.Provider
       value={{
         filteredData,
-        dispatchFilter
+        dispatchFilter,
       }}
     >
       {props.children}

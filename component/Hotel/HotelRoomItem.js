@@ -25,9 +25,9 @@ import DatePickContext from "../../store/datePickContext";
 import NotificationImportantIcon from "@mui/icons-material/NotificationImportant";
 import CartContext from "../../store/cartContext";
 import { actionType } from "../../store/actionType";
-import AlertModal from '../ui/AlertModal';
-import CustomizeSnackbar from '../ui/Snackbar';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AlertModal from "../ui/AlertModal";
+import CustomizeSnackbar from "../ui/Snackbar";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const styledbtn = {
   borderRadius: "2",
@@ -70,9 +70,9 @@ const HotelRoomItem = (props) => {
   const cartCtx = useContext(CartContext);
   const { selectedStartDate, selectedDateRange } = selectedCtx.pickedData;
 
-  const allowSmoke = props.smoking ? true : false;
+  const allowSmoke = props.smoking ? true : false; // TODO: remove ? true : false, the condition itself gives u the boolean
 
-  const specialMsg = props.specialMsg.length > 0 ? true : false;
+  const specialMsg = props.specialMsg.length > 0 ? true : false; // TODO
 
   const soldOutStyle = soldOut
     ? { borderColor: "#D3D3D3", backgroundColor: "#D3D3D3", color: "white" }
@@ -105,31 +105,27 @@ const HotelRoomItem = (props) => {
       return setSelectAlert(true);
     } else {
       setOpen(true),
-      cartCtx.dispatchCart({
-        type: actionType.ADD_CART,
-        payload: {
-          selectedItem: {
-            hotelName: props.hotelName,
-            roomType: props.roomName,
-            beds: props.beds,
-            smoking: props.smoking,
-            specialMsg: props.specialMsg,
-            key: props.id,
-            id: props.id,
-            selectedDateRange: selectedDateRange,
+        cartCtx.dispatchCart({
+          type: actionType.ADD_CART,
+          payload: {
+            selectedItem: {
+              hotelName: props.hotelName,
+              roomType: props.roomName,
+              beds: props.beds,
+              smoking: props.smoking,
+              specialMsg: props.specialMsg,
+              key: props.id,
+              id: props.id,
+              selectedDateRange: selectedDateRange,
+            },
           },
-        },
-      });
+        });
     }
   };
 
-  const handleClose = () => 
-    setSelectAlert(false)
+  const handleClose = () => setSelectAlert(false);
 
-  const handleSnackbarClose = () => 
-    setOpen(false)
-  
-
+  const handleSnackbarClose = () => setOpen(false);
 
   return (
     <li>
@@ -148,8 +144,16 @@ const HotelRoomItem = (props) => {
             }}
           >
             {/* alert modal */}
-            <AlertModal selectAlert={selectAlert} onHandleModalClose={handleClose}/>
-            <CustomizeSnackbar icon={<AddShoppingCartIcon sx={{ color: "white" }} />} message='Added To Cart' SnackbarOpen={open} onHandleSnackbarClose={handleSnackbarClose}/>
+            <AlertModal
+              selectAlert={selectAlert}
+              onHandleModalClose={handleClose}
+            />
+            <CustomizeSnackbar
+              icon={<AddShoppingCartIcon sx={{ color: "white" }} />}
+              message="Added To Cart"
+              SnackbarOpen={open}
+              onHandleSnackbarClose={handleSnackbarClose}
+            />
             <Grid container>
               <Grid container px={3} direction="row">
                 <Grid

@@ -17,6 +17,7 @@ const DatePicker = () => {
 
   useEffect(() => {
     const getDatesInRange = (startDate, endDate) => {
+      // TODO: extract static function from useEffect to avoid re-generating the function everytime.
       const date = new Date(startDate.getTime());
 
       const dates = [];
@@ -37,10 +38,7 @@ const DatePicker = () => {
       type: actionType.DATEPICKER_FILTER,
       payload: { dateRange },
     });
-  }, [startDate, endDate]);
-
-  // console.log(dateRange[0]);
-  // console.log(new Date("Mon Oct 03 2022 00:00:00"));
+  }, [startDate, endDate]); // TODO: remove whole block to avoid multi-steps modification.
 
   return (
     <Stack spacing={3}>
@@ -51,7 +49,7 @@ const DatePicker = () => {
         <MobileDateRangePicker
           value={value}
           onChange={(newValue) => {
-            setValue(newValue);
+            setValue(newValue); //TODO: avoid multi-steps to modify context, just create a function in which setState and dispatch action.
           }}
           renderInput={(startProps, endProps) => (
             <>

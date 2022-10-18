@@ -6,21 +6,25 @@ const DatePickContext = createContext();
 const defaultState = {
   originalSelectedHotelsData: [],
   availableRoomList: [],
-  selectedStartDate: "Wed Oct 05 2022"
+  selectedStartDate: new Date(2022, 9, 5),
+  // TODO:
+  //1. use new Date() instead of String ("Wed Oct 05 2022") ** Aware that month starts from 0 here.
+  //2. avoid hard code.
 };
 
 const datePickReducer = (state, action) => {
+  // TODO: inappropriate use and syntax of "switch", refer to "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch"
   switch (action.type) {
     case actionType.DATA_INSERT:
       const roomList = action.payload.singleHotel;
-      const availableRoomList = roomList.map((hotel) =>
-        hotel.roomTypes.map((roomType) => roomType)
+      const availableRoomList = roomList.map(
+        (hotel) => hotel.roomTypes.map((roomType) => roomType) // TODO: why map roomType to roomType? is it redundant?
       );
 
       return {
-        selectedStartDate: "Wed Oct 05 2022",
+        selectedStartDate: "Wed Oct 05 2022", // TODO
         originalSelectedHotelsData: action.payload.singleHotel,
-        availableRoomList: availableRoomList
+        availableRoomList: availableRoomList,
       };
   }
 
@@ -28,20 +32,23 @@ const datePickReducer = (state, action) => {
     case actionType.DATEPICKER_FILTER:
       if (action.payload.dateRange) {
         //dedault select
-        let selectedDateRange = ["Wed Oct 05 2022", "Thu Oct 06 2022"];
+        let selectedDateRange = ["Wed Oct 05 2022", "Thu Oct 06 2022"]; //TODO
 
         if (action.payload.dateRange.length > 1) {
           selectedDateRange = action.payload.dateRange.map((date) => {
-            return date.toDateString();
+            return date.toDateString(); // TODO
           });
         }
 
-        const getSelectedDate = state.originalSelectedHotelsData.map((hotel) =>
-          hotel.roomTypes.filter((roomType) => {
-            return selectedDateRange.every(
-              (date) => Object.keys(roomType.stock).indexOf(date) > -1
-            );
-          })
+        const getSelectedDate = state.originalSelectedHotelsData.map(
+          (
+            hotel // TODO: redundant code should be removed
+          ) =>
+            hotel.roomTypes.filter((roomType) => {
+              return selectedDateRange.every(
+                (date) => Object.keys(roomType.stock).indexOf(date) > -1
+              );
+            })
         );
 
         const getDateWithQuantity = state.originalSelectedHotelsData.map(
@@ -63,6 +70,7 @@ const datePickReducer = (state, action) => {
         );
 
         return {
+          // TODO: if these properties are expected, initialize it in initial state
           ...state,
           availableRoomList: getDateWithQuantity,
           selectedStartDate: selectedDateRange[0],

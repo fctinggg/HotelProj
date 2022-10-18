@@ -30,14 +30,14 @@ const HotelDetail = () => {
   if (originalSelectedHotelsData.length > 0) {
     singleHotelData = originalSelectedHotelsData[0];
 
-    bestSeller = singleHotelData.totalReview >= 4 ? true : false;
-    bestLocation = singleHotelData.review.location >= 4.5 ? true : false;
-    considerate =
+    bestSeller = singleHotelData.totalReview >= 4 ? true : false; // TODO: remove ? true : false, the condition itself gives u the boolean
+    bestLocation = singleHotelData.review.location >= 4.5 ? true : false; // TODO
+    considerate = // TODO
       singleHotelData.review.service >= 4 &&
       singleHotelData.review.facilities >= 4
         ? true
         : false;
-    goodValue =
+    goodValue = // TODO
       singleHotelData.review.location >= 4 &&
       singleHotelData.review.cleanliness >= 4
         ? true
