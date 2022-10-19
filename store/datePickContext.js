@@ -6,7 +6,7 @@ const DatePickContext = createContext();
 const defaultState = {
   originalSelectedHotelsData: [],
   availableRoomList: [],
-  selectedStartDate: (new Date(2022, 9, 5)).toDateString(), //佢要係string先render到啲野 遲啲諗
+  selectedStartDate: new Date(2022, 9, 5).toDateString(), //佢要係string先render到啲野 遲啲諗
 };
 
 const datePickReducer = (state, action) => {
@@ -17,7 +17,7 @@ const datePickReducer = (state, action) => {
       const availableRoomList = roomList.map((hotel) => hotel.roomTypes);
 
       return {
-        selectedStartDate: (new Date(2022, 9, 5)).toDateString(),
+        selectedStartDate: new Date(2022, 9, 5).toDateString(),
         originalSelectedHotelsData: action.payload.singleHotel,
         availableRoomList: availableRoomList,
       };

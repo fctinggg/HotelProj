@@ -26,6 +26,7 @@ const CustomizeSnackbar = (props) => {
             color: "white",
             width: "200px",
             display: "flex",
+            position: 'flexed',
             justifyContent: "center",
             pl: 0,
           }}

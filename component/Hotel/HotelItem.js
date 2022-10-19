@@ -9,14 +9,34 @@ import WavesOutlinedIcon from "@mui/icons-material/WavesOutlined";
 import FlightLandOutlinedIcon from "@mui/icons-material/FlightLandOutlined";
 import SmokingRoomsOutlinedIcon from "@mui/icons-material/SmokingRoomsOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
-import TurnedInNotOutlinedIcon from "@mui/icons-material/TurnedInNotOutlined";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import RatingUI from "../ui/Rating";
 import LikeSaveIcon from "../ui/LikeSave";
-import { CardActionArea, CardActions } from "@mui/material";
+import { CardActionArea } from "@mui/material";
 import { useRouter } from "next/router";
+import { actionType } from "../../store/actionType";
+import FavouriteContext from "../../store/favouriteContext";
+import { useContext, useState, useEffect } from "react";
+import { useSession } from "next-auth/client";
+import useFetch from "../../hook/useFetch";
+import CustomizeSnackbar from "../ui/Snackbar";
+
+let Snackbarmessage
+let icon
 
 const HotelItem = (props) => {
+  const [open, setOpen] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [session, loading] = useSession();
+  const favCtx = useContext(FavouriteContext);
+  const { wishList, subscribedList } = favCtx.favouriteStatus;
   const router = useRouter();
+  const { sendRequest: sendFetchRequest } = useFetch();
+
+  console.log(props)
+  const selectedHotel = props;
 
   const handleRouteChange = (post_url) => {
     router.push(post_url, undefined, { shallow: true });
@@ -26,6 +46,79 @@ const HotelItem = (props) => {
     handleRouteChange(`/Hotel/${props.id}`);
     console.log("OK");
   };
+
+  const handleSnackbarClose = () => setOpen(false);
+
+  const savedChangeHandler = () => {
+    setSaved((prevState) => !prevState);
+    if (session) {
+      if (saved === false) {
+        favCtx.dispatchFavourite({
+          type: actionType.ADD_FAVOURITE,
+          payload: { selectedHotel, status: { saved: true } },
+        });
+        setOpen(true)
+        Snackbarmessage = 'Added to wishlist!' 
+        icon = <AutoAwesomeIcon sx={{ color: "white" }}/>
+      }
+      if (saved === true) {
+        favCtx.dispatchFavourite({
+          type: actionType.REMOVE_FAVOURITE,
+          payload: { selectedId: selectedHotel.id, status: { saved: true } },
+        });
+      }
+    }
+  };
+
+  const likedChangeHandler = () => {
+    setLiked((prevState) => !prevState);
+    if (session) {
+      if (liked === false) {
+        favCtx.dispatchFavourite({
+          type: actionType.ADD_FAVOURITE,
+          payload: { selectedHotel, status: { saved: false } },
+        });
+        setOpen(true)
+        Snackbarmessage = 'Subscribed!'
+        icon = <NotificationsNoneIcon sx={{ color: "white" }} />
+      }
+      if (liked === true) {
+        favCtx.dispatchFavourite({
+          type: actionType.REMOVE_FAVOURITE,
+          payload: { selectedId: selectedHotel.id, status: { saved: false } },
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    async function submitUserCartHandler() {
+      if (session) {
+        if (saved === true || liked === true) {
+          const result = await sendFetchRequest({
+            url: "/api/userData",
+            method: "PATCH",
+            body: { wishList, subscribedList, userId: session.user.name._id },
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+      }
+    }
+    submitUserCartHandler();
+  }, [wishList, subscribedList]);
+
+  useEffect(() => {
+    if (subscribedList.map((item) => item.id).indexOf(selectedHotel.id) > -1) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+    if (wishList.map((item) => item.id).indexOf(selectedHotel.id) > -1) {
+      setSaved(true);
+    } else {
+      setSaved(false);
+    }
+  }, [wishList, subscribedList]);
 
   const popularAmenities = props.popularAmenities.map((amenities) => (
     <Grid
@@ -69,6 +162,12 @@ const HotelItem = (props) => {
   return (
     <>
       <li>
+        <CustomizeSnackbar
+          icon={icon}
+          message={Snackbarmessage}
+          SnackbarOpen={open}
+          onHandleSnackbarClose={handleSnackbarClose}
+        />
         <Box py={3}>
           <Card
             sx={{
@@ -200,7 +299,12 @@ const HotelItem = (props) => {
                 sm={3}
                 sx={{ justifyContent: "flex-end" }}
               >
-                <LikeSaveIcon hotel={props}/>
+                <LikeSaveIcon
+                  onSavedChangeHandler={savedChangeHandler}
+                  onLikedChangeHandler={likedChangeHandler}
+                  saved={saved}
+                  liked={liked}
+                />
               </Grid>
             </Grid>
           </Card>

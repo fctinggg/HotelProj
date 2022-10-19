@@ -4,8 +4,8 @@ import { actionType } from "./actionType";
 const FavouriteContext = createContext();
 
 const defaultState = {
-  savedList: [],
-  likedList: [],
+  wishList: [],
+  subscribedList: [],
 };
 
 const addFavourite = (selectedItem, stateList) => {
@@ -25,24 +25,24 @@ const favouriteReducer = (state, action) => {
     case actionType.ADD_FAVOURITE:
       const actionStatus = action.payload.status;
 
-      let updatedSavedList = state.savedList;
-      let updatedLikedList = state.likedList;
+      let updatedWishList = state.wishList;
+      let updatedSubscribedList = state.subscribedList;
 
       if (actionStatus.saved) {
-        updatedSavedList = addFavourite(
+        updatedWishList = addFavourite(
           action.payload.selectedHotel,
-          state.savedList
+          state.wishList
         );
       } else {
-        updatedLikedList = addFavourite(
+        updatedSubscribedList = addFavourite(
           action.payload.selectedHotel,
-          state.likedList
+          state.subscribedList
         );
       }
 
       return {
-        savedList: updatedSavedList,
-        likedList: updatedLikedList,
+        wishList: updatedWishList,
+        subscribedList: updatedSubscribedList,
       };
   }
 
@@ -50,57 +50,37 @@ const favouriteReducer = (state, action) => {
     case actionType.REMOVE_FAVOURITE:
       const actionStatus = action.payload.status;
 
-      let updatedSavedList = state.savedList;
-      let updatedLikedList = state.likedList;
+      let updatedWishList = state.wishList;
+      let updatedSubscribedList = state.subscribedList;
 
       if (actionStatus.saved) {
-        updatedSavedList = removeFavourite(
+        updatedWishList = removeFavourite(
           action.payload.selectedId,
-          state.savedList
+          state.wishList
         );
       } else {
-        updatedLikedList = removeFavourite(
+        updatedSubscribedList = removeFavourite(
           action.payload.selectedId,
-          state.likedList
+          state.subscribedList
         );
       }
 
       return {
-        savedList: updatedSavedList,
-        likedList: updatedLikedList,
-      };
-  }
-
-  switch (action.type) {
-    case actionType.ADD_LIKED:
-      const selectedItem = action.payload.selectedHotel;
-      const updatedLikedList = state.likedList.concat(selectedItem);
-
-      return {
-        ...state,
-        likedList: updatedLikedList,
-      };
-  }
-
-  switch (action.type) {
-    case actionType.REMOVE_LIKED:
-      const updatedLikedList = state.likedList.filter(
-        (item) => item.id.indexOf(action.payload.selectedId) !== 0
-      );
-
-      return {
-        ...state,
-        likedList: updatedLikedList,
+        wishList: updatedWishList,
+        subscribedList: updatedSubscribedList
       };
   }
 
   switch (action.type) {
     case actionType.DATA_INSERT:
-      const updatedSavedList = action.payload.savedList;
+      const updatedWishList = action.payload.wishList;
+      const updatedSubscribedList = action.payload.subscribedList;
+
+      console.log(action.payload)
 
       return {
-        ...state,
-        savedList: updatedSavedList,
+        wishList: updatedWishList,
+        subscribedList: updatedSubscribedList,
       };
   }
 };

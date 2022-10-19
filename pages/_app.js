@@ -8,6 +8,7 @@ import { CartContextProvider } from "../store/cartContext";
 import { FavouriteContextProvider } from "../store/favouriteContext";
 
 function MyApp({ Component, pageProps }) {
+
   return (
     <>
       <Head>

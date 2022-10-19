@@ -18,7 +18,7 @@ const HotelDetailPage = (props) => {
 
   useEffect(() => {
     if (Object.keys(singleHotel[0]).length !== 0) {
-      console.log('datepickContext data updated')
+      console.log("datepickContext data updated");
       selectedCtx.dispatchPickup({
         type: actionType.DATA_INSERT,
         payload: { singleHotel },
@@ -32,7 +32,7 @@ const HotelDetailPage = (props) => {
   return (
     <>
       <HotelDetailLayout>
-        <HotelDetail/>
+        <HotelDetail />
       </HotelDetailLayout>
     </>
   );
